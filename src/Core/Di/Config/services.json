@@ -1,0 +1,112 @@
+{
+  "v1_modellrechnung_durchfuehren": {
+    "httpMethod": "get",
+    "restFunction": "/v2/modellrechnung/durchfuehren",
+    "endpointtype": "ratenkauf"
+  },
+  "v1_modellrechnung_guenstigsterRatenplan": {
+    "httpMethod": "get",
+    "restFunction": "/v2/modellrechnung/guenstigsterRatenplan",
+    "endpointtype": "ratenkauf"
+  },
+  "v1_texte_zustimmung": {
+    "httpMethod": "get",
+    "restFunction": "/v2/texte/zustimmung/%s",
+    "endpointtype": "ratenkauf"
+  },
+  "v1_vorgang": {
+    "httpMethod": "post",
+    "restFunction": "/v2/vorgang",
+    "endpointtype": "ratenkauf"
+  },
+  "v1_decision": {
+    "httpMethod": "get",
+    "restFunction": "/v2/vorgang/%s/entscheidung",
+    "endpointtype": "ratenkauf"
+  },
+  "v1_financialinformation": {
+    "httpMethod": "get",
+    "restFunction": "/v2/vorgang/%s",
+    "endpointtype": "ratenkauf"
+  },
+  "v1_finanzierung": {
+    "httpMethod": "get",
+    "restFunction": "/v2/vorgang/%s/finanzierung",
+    "endpointtype": "ratenkauf"
+  },
+  "v1_bestaetigen": {
+    "httpMethod": "post",
+    "restFunction": "/v2/vorgang/%s/bestaetigen",
+    "endpointtype": "ratenkauf"
+  },
+  "v2_delivery_report": {
+    "httpMethod": "post",
+    "restFunction": "/v2/transaktionen/%s/lieferung",
+    "endpointtype": "haendlerinterface"
+  },
+  "v2_delivery_state": {
+    "httpMethod": "get",
+    "restFunction": "/v2/transaktionen/%s",
+    "endpointtype": "haendlerinterface"
+  },
+  "v2_transaktionen_suchen": {
+    "httpMethod": "get",
+    "restFunction": "/v2/transaktionen/suchen",
+    "endpointtype": "haendlerinterface"
+  },
+  "v2_transaktionen_storno": {
+    "httpMethod": "post",
+    "restFunction": "/v2/transaktionen/%s/rueckabwicklung",
+    "endpointtype": "haendlerinterface"
+  },
+  "v3_integrationcheck": {
+    "httpMethod": "post",
+    "restFunction": "/api/payment/v3/webshop/integrationcheck",
+    "endpointtype": "ratenkauf"
+  },
+  "v3_texte_zustimmung": {
+    "httpMethod": "post",
+    "restFunction": "/api/payment/v3/webshop/texte/%s",
+    "endpointtype": "ratenkauf"
+  },
+  "v3_vorgang": {
+    "httpMethod": "post",
+    "restFunction": "/api/payment/v3/transaction",
+    "endpointtype": "ratenkauf"
+  },
+  "v3_decision": {
+    "httpMethod": "get",
+    "restFunction": "/api/payment/v3/transaction/%s",
+    "endpointtype": "ratenkauf"
+  },
+  "v3_financialinformation": {
+    "httpMethod": "get",
+    "restFunction": "/api/payment/v3/transaction/%s",
+    "endpointtype": "ratenkauf"
+  },
+  "v3_modellrechnung_guenstigsterRatenplan": {
+    "httpMethod": "post",
+    "restFunction": "/api/ratenrechner/v3/webshop/%s/installmentplans",
+    "endpointtype": "ratenkauf"
+  },
+  "v3_bestaetigen": {
+    "httpMethod": "post",
+    "restFunction": "/api/payment/v3/transaction/%s/authorization",
+    "endpointtype": "ratenkauf"
+  },
+  "v3_delivery_state": {
+    "httpMethod": "get",
+    "restFunction": "/api/merchant/v3/transaction/%s",
+    "endpointtype": "haendlerinterface"
+  },
+  "v3_transaktionen_storno": {
+    "httpMethod": "post",
+    "restFunction": "/api/merchant/v3/transaction/%s/refund",
+    "endpointtype": "haendlerinterface"
+  },
+  "v3_delivery_report": {
+    "httpMethod": "post",
+    "restFunction": "/api/merchant/v3/transaction/%s/capture",
+    "endpointtype": "haendlerinterface"
+  }
+}

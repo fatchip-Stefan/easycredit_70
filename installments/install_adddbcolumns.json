@@ -1,0 +1,48 @@
+{
+  "tables": {
+      "oxorder": [
+        {
+          "colname": "ECREDINTERESTSVALUE",
+          "coltype": "double",
+          "colnullable": "NULL",
+          "comment": "easycredit interests value"
+        },
+        {
+          "colname": "ECREDTECHNICALID",
+          "coltype": "VARCHAR(100)",
+          "colnullable": "NULL",
+          "comment": "easycredit technical processid"
+        },
+        {
+          "colname": "ECREDFUNCTIONALID",
+          "coltype": "VARCHAR(100)",
+          "colnullable": "NULL",
+          "comment": "easycredit functional processid"
+        },
+        {
+          "colname": "ECREDPAYMENTSTATUS",
+          "coltype": "VARCHAR(30)",
+          "colnullable": "NULL",
+          "comment": "easycredit payment status was captured"
+        },
+        {
+          "colname": "ECREDCONFIRMRESPONSE",
+          "coltype": "TEXT",
+          "colnullable": "NULL",
+          "comment": "easycredit instalment confirmation response"
+        },
+        {
+          "colname": "ECREDDELIVERYSTATE",
+          "coltype": "TEXT",
+          "colnullable": "NULL",
+          "comment": "status of order - delivery reported, in account ..."
+        },
+        {
+          "colname": "ECREDISV3ORDER",
+          "coltype": "BOOLEAN",
+          "colnullable": "NULL",
+          "comment": "order was created with v3 api"
+        }        
+      ]
+    }
+}

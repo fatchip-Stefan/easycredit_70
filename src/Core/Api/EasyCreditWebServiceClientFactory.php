@@ -1,0 +1,87 @@
+<?php
+/**
+ * This Software is the property of OXID eSales and is protected
+ * by copyright law - it is NOT Freeware.
+ *
+ * Any unauthorized use of this software without a valid license key
+ * is a violation of the license agreement and will be prosecuted by
+ * civil and criminal law.
+ *
+ * @link      http://www.oxid-esales.com
+ * @copyright (C) OXID eSales AG 2003-2021
+ */
+
+namespace OxidSolutionCatalysts\EasyCredit\Core\Api;
+
+use OxidEsales\Eshop\Core\Exception\SystemComponentException;
+use OxidSolutionCatalysts\EasyCredit\Core\Di\EasyCreditConfigException;
+use OxidSolutionCatalysts\EasyCredit\Core\Di\EasyCreditDic;
+
+/**
+ * Class EasyCreditWebServiceClientFactory
+ *
+ * Builds a web service client capable for the specified rest function.
+ */
+class EasyCreditWebServiceClientFactory
+{
+    /**
+     * @param string $serviceName
+     * @param EasyCreditDic $dic
+     * @param array|null $additionalArguments
+     * @param array|null $queryArguments
+     * @param bool $addheaders
+     *
+     * @return EasyCreditWebServiceClient
+     * @throws SystemComponentException
+     * @throws EasyCreditConfigException
+     * @throws EasyCreditCurlException
+     */
+    public static function getWebServiceClient($serviceName, EasyCreditDic $dic, array $additionalArguments = [], array $queryArguments = [], $addheaders = false)
+    {
+        /** @var EasyCreditWebServiceClient $client */
+        $client = oxNew(EasyCreditWebServiceClient::class);
+
+        $apiConfig = $dic->getApiConfig();
+
+        $client->setLogging($dic->getLogging());
+        $client->setHttpmethod($apiConfig->getServiceHttpMethod($serviceName));
+        $client->setBaseUrl($apiConfig->getBaseUrl($serviceName));
+        $client->setFunction(
+            $apiConfig->getServiceRestFunction($serviceName),
+            $additionalArguments,
+            array_merge($apiConfig->getServiceRestFunctionArguments($serviceName) ?? [], $queryArguments)
+        );
+
+        $scheme = $apiConfig->getValidationScheme($serviceName);
+        if ($scheme) {
+            $client->setResponseValidator(
+                oxNew(
+                    EasyCreditResponseValidator::class,
+                    $scheme
+                )
+            );
+        }
+
+        if ($addheaders) {
+            if ($apiConfig->getEasyCreditUseApiVersionV3()) {
+                $headers = [
+                    'Authorization: Basic ' . base64_encode($apiConfig->getWebshopId() . ":" . $apiConfig->getWebShopToken()),
+                    'accept: application/problem+json',
+                    'Content-Type: application/json'
+                ];
+                if ($apiConfig->getEasyCreditUseHMAC() && !empty($apiConfig->getEasyCreditHMACHeader())) {
+                    $headers['Content-signature'] = 'hmacsha256=' . hash_hmac('sha256', json_encode($additionalArguments, JSON_PRETTY_PRINT), $apiConfig->getEasyCreditHMACHeader());
+                }
+            } else {
+                $headers = [
+                    "Content-Type: application/json;charset=UTF-8",
+                    "tbk-rk-shop: " . $apiConfig->getWebshopId(),
+                    "tbk-rk-token: " . $apiConfig->getWebShopToken(),
+                ];
+            }
+            $client->setRequestHeaders($headers);
+        }
+
+        return $client;
+    }
+}
