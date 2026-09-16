@@ -115,7 +115,7 @@ jobs:
           docker compose exec -T \
             php composer require ${{ env.PACKAGE_NAME }}:* --no-interaction --no-update       
 
-      - name: Install Module
+      - name: Install Module in Oxid
         run: |
           cd $OXID_PATH
           vendor/bin/oe-console oe:module:install $MODULE_PATH
