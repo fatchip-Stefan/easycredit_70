@@ -106,15 +106,15 @@ jobs:
           composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
           composer install --no-interaction
 
-      - name: Checkout current module
-        uses: actions/checkout@v4
-        with:
-          path: $OXID_PATH/MODULE_TESTS_PATH
+#      - name: Checkout current module
+#        uses: actions/checkout@v4
+#        with:
+#          path: $OXID_PATH/MODULE_TESTS_PATH
 
-      - name: Install Dev Dependencies
-        run: |
-          cd $OXID_PATH
-          vendor/bin/oe-console oe:module:install $MODULE_PATH
+#      - name: Install Dev Dependencies
+#        run: |
+#          cd $OXID_PATH
+#          vendor/bin/oe-console oe:module:install $MODULE_PATH
             
 
           
