@@ -107,11 +107,11 @@ jobs:
           mkdir -p "$(dirname "$OXID_PATH/$MODULE_PATH")"
           rsync -a --delete "$GITHUB_WORKSPACE/" "$OXID_PATH/$MODULE_PATH/"
              
-      - name: Install Module in Oxid
-        run: |
-          cd $OXID_PATH
-          ls -la $OXID_PATH/$MODULE_PATH
-          vendor/bin/oe-console oe:module:install $MODULE_PATH          
+#      - name: Install Module in Oxid
+#        run: |
+#          cd $OXID_PATH
+#          ls -la $OXID_PATH/$MODULE_PATH
+#          vendor/bin/oe-console oe:module:install $MODULE_PATH          
 
       - name: Install module
         run: |
