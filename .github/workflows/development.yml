@@ -102,7 +102,7 @@ jobs:
       - name: Checkout current module
         uses: actions/checkout@v5
         with:
-          path: $MODULE_PATH
+          path: $OXID_PATH/$MODULE_PATH
           
       - name: Install Module in Oxid
         run: |
