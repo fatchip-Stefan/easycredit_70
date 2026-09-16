@@ -102,12 +102,18 @@ jobs:
       - name: Checkout current module
         uses: actions/checkout@v4
         with:
-          path: $OXID_PATH/MODULE_TESTS_PATH
+          path: $OXID_PATH/$MODULE_PATH
+          
+      - name: Test Path
+        run: |
+          cd $OXID_PATH
+          ls -la $OXID_PATH/$MODULE_PATH           
 
       - name: Install Module
         run: |
           cd $OXID_PATH
           vendor/bin/oe-console oe:module:install $MODULE_PATH
+
       - name: Install Dev Dependencies
         run: |
           sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
