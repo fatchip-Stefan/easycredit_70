@@ -102,20 +102,21 @@ jobs:
       - name: Checkout current module
         uses: actions/checkout@v5
         with:
-          path: source/test-module
+          path: $MODULE_PATH
+          
+      - name: Install Module in Oxid
+        run: |
+          cd $OXID_PATH
+          ls -la $MODULE_PATH
+          vendor/bin/oe-console oe:module:install $MODULE_PATH          
 
       - name: Install module
         run: |
           cd $OXID_PATH
           composer config repositories.PACKAGE_NAME\
-            --json '{"type":"path", "url":"./test-module", "options": {"symlink": true}}'
+            --json '{"type":"path", "url":"$MODULE_PATH", "options": {"symlink": true}}'
           composer config audit.block-insecure false
           composer require $PACKAGE_NAME:* --no-interaction --no-update       
-
-      - name: Install Module in Oxid
-        run: |
-          cd $OXID_PATH
-          vendor/bin/oe-console oe:module:install $MODULE_PATH
 
       - name: Install Dev Dependencies
         run: |
