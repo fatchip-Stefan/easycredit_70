@@ -111,7 +111,7 @@ jobs:
         with:
           path: $OXID_PATH/MODULE_TESTS_PATH
 
-      - name: Install Dev Dependencies
+      - name: Install Module
         run: |
           cd $OXID_PATH
           vendor/bin/oe-console oe:module:install $MODULE_PATH
