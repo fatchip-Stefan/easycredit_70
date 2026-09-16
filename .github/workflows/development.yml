@@ -101,7 +101,7 @@ jobs:
 
       - name: Install Dev Dependencies
         run: |
-          sed -i 's/"minimum-stability"[[:space:]]*:[[:space:]]*"[^"]*"/"minimum-stability": "dev"/' /tmp/oxid7/composer.json
+          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /tmp/oxid7/composer.json
           composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
           
           
