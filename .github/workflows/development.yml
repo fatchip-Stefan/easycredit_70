@@ -106,6 +106,7 @@ jobs:
 
       - name: Install module
         run: |
+          cd $OXID_PATH
           docker compose exec -T \
             php composer config repositories.${{ env.PACKAGE_NAME }} \
             --json '{"type":"path", "url":"./test-module", "options": {"symlink": true}}'
