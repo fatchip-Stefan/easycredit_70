@@ -7,6 +7,7 @@ env:
   MODULE_PATH: 'vendor/oxid-professional-services/easycredit-module'
   MODULE_TESTS_PATH: 'vendor/oxid-professional-services/easycredit-module/tests'
   MODULE_BRANCH: 'dev-main'
+  OXID_PATH: '/tmp/oxid7'
 
 jobs:
   run:
@@ -96,15 +97,15 @@ jobs:
           composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project . ${{ matrix.oxid-versions }}
           composer config audit.block-insecure false
           composer install --no-interaction
-          cp /tmp/oxid7/source/config.inc.php.dist /tmp/oxid7/source/config.inc.php
-          sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|/tmp/oxid7/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' /tmp/oxid7/source/config.inc.php
+          cp $OXID_PATH/source/config.inc.php.dist $OXID_PATH/source/config.inc.php
+          sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|$OXID_PATH/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' $OXID_PATH/source/config.inc.php
           sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" /tmp/oxid7/source/config.inc.php
           chmod -R 777 /tmp/oxid7/source/log
 
       - name: Install Dev Dependencies
         run: |
-          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /tmp/oxid7/composer.json
-          cd /tmp/oxid7
+          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
+          cd $OXID_PATH
           composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
           
           
