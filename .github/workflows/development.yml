@@ -6,6 +6,7 @@ env:
   PACKAGE_NAME: 'oxid-esales/easycredit-module'
   MODULE_PATH: 'vendor/oxid-professional-services/easycredit-module'
   MODULE_TESTS_PATH: 'vendor/oxid-professional-services/easycredit-module/tests'
+  FULL_MODULE_PATH: '/tmp/oxid7vendor/oxid-professional-services/easycredit-module'
   MODULE_BRANCH: 'dev-main'
   OXID_PATH: '/tmp/oxid7'
 
@@ -118,7 +119,7 @@ jobs:
           cd $OXID_PATH
           ls -la $OXID_PATH/$MODULE_PATH
           composer config repositories.$PACKAGE_NAME\
-            --json '{"type":"path", "url":"$MODULE_PATH", "options": {"symlink": true}}'
+            --json '{"type":"path", "url":"$MODULE_PATH"}'
           composer config audit.block-insecure false
           composer require $PACKAGE_NAME:* --no-interaction --no-update       
 
