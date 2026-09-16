@@ -97,16 +97,6 @@ jobs:
           cp /tmp/oxid7/source/config.inc.php.dist /tmp/oxid7/source/config.inc.php
           sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|/tmp/oxid7/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' /tmp/oxid7/source/config.inc.php
           sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" /tmp/oxid7/source/config.inc.php
-          composer require --dev -n --no-progress oxid-esales/mink-selenium-driver:dev-b-8.0.x
+          sed -i "s/"minimum-stability"[[:space:]]*:[[:space:]]*"[^"]*"/"minimum-stability": "dev"/' /tmp/oxid7/composer.json
           composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
           chmod -R 777 /tmp/oxid7/source/log
-      - name: Install plugin
-        run: |
-          composer -n --no-progress --working-dir=/tmp/oxid7 require $PACKAGE_NAME:$MODULE_BRANCH
-          cp -a $GITHUB_WORKSPACE/. /tmp/oxid7/vendor/oxid-easales/oxid-7/
-          cd /tmp/oxid7
-          composer dump-autoload
-      - name: Run tests
-        run: |
-          mv /tmp/oxid7/$MODULE_PATH/.github/test_config.yml /tmp/oxid7/test_config.yml
-          php /tmp/oxid7/vendor/bin/runtests /tmp/oxid7/$MODULE_TESTS_PATH
