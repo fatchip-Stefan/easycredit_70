@@ -100,14 +100,19 @@ jobs:
           chmod -R 777 $OXID_PATH/source/log
           
       - name: Checkout current module
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
-          path: $OXID_PATH/$MODULE_PATH
-          
-      - name: Test Path
+          path: source/test-module
+
+      - name: Install module
         run: |
-          cd $OXID_PATH
-          ls -la $OXID_PATH/$MODULE_PATH           
+          docker compose exec -T \
+            php composer config repositories.${{ env.PACKAGE_NAME }} \
+            --json '{"type":"path", "url":"./test-module", "options": {"symlink": true}}'
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T \
+            php composer require ${{ env.PACKAGE_NAME }}:* --no-interaction --no-update       
 
       - name: Install Module
         run: |
