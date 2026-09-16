@@ -113,6 +113,7 @@ jobs:
 
       - name: Install Dev Dependencies
         run: |
+          cd $OXID_PATH
           vendor/bin/oe-console oe:module:install $MODULE_PATH
             
 
