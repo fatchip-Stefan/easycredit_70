@@ -95,7 +95,7 @@ jobs:
           composer config audit.block-insecure false
           composer install --no-interaction
           cp $OXID_PATH/source/config.inc.php.dist $OXID_PATH/source/config.inc.php
-          sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|$OXID_PATH/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' $OXID_PATH/source/config.inc.php
+          sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7_testing|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|$OXID_PATH/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' $OXID_PATH/source/config.inc.php
           sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" $OXID_PATH/source/config.inc.php
           chmod -R 777 $OXID_PATH/source/log
           
