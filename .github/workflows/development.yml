@@ -101,9 +101,12 @@ jobs:
           
       - name: Checkout current module
         uses: actions/checkout@v5
-        with:
-          path: $OXID_PATH/$MODULE_PATH
-          
+
+      - name: copy module
+        run: |
+          mkdir -p "$(dirname "$OXID_PATH/$MODULE_PATH")"
+          rsync -a --delete "$GITHUB_WORKSPACE/" "$OXID_PATH/$MODULE_PATH/"
+             
       - name: Install Module in Oxid
         run: |
           cd $OXID_PATH
