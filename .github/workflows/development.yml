@@ -129,6 +129,14 @@ jobs:
           cd $OXID_PATH
           composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
           composer install --no-interaction
+          composer dump-autoload
+          
+      - name: Run tests
+        run: |
+          mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
+          php $OXID_PATH/vendor/bin/runtests $OXID_PATH/$MODULE_TESTS_PATH        
+          
+          
 
             
 
