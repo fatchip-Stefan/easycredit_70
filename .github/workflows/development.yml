@@ -143,6 +143,8 @@ jobs:
       - name: Install module
         run: |
           docker compose exec -T \
+          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' source/composer.json
+          docker compose exec -T \
             php composer config repositories.${{ env.PACKAGE_NAME }} \
             --json '{"type":"path", "url":"./test-module", "options": {"symlink": true}}'
           docker compose exec -T \
