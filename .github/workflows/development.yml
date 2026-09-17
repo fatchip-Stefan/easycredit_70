@@ -129,18 +129,21 @@ jobs:
         run: |
           sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
           cd $OXID_PATH
-          composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-7.0.x
+          composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-6.0.x
           composer install --no-interaction
           composer dump-autoload
           cat $OXID_PATH/composer.lock
           
-      - name: Run tests
+      # - name: Run tests
+      #  run: |
+      #    mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
+      #    php $OXID_PATH/vendor/bin/runtests $OXID_PATH/$MODULE_TESTS_PATH        
+          
+      - name: Run phpunit without testing library 
         run: |
-          mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
-          php $OXID_PATH/vendor/bin/runtests $OXID_PATH/$MODULE_TESTS_PATH        
+          cd $OXID_PATH
+          php vendor/bin/phpunit --bootstrap vendor/oxid-esales/testing-library/bin/../bootstrap.php vendor/oxid-professional-services/easycredit-module/tests/Unit
           
-          
-
             
 
           
