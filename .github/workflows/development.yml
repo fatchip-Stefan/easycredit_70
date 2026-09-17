@@ -111,14 +111,6 @@ jobs:
           composer install --no-interaction
           composer dump-autoload
           cat $OXID_PATH/composer.lock
-
-      - name: Prepare test config yml
-        run: |
-          mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
-
-      - name: Reset Oxid
-        run: |
-            vendor/bin/reset-shop          
           
       - name: Checkout current module
         uses: actions/checkout@v5
@@ -127,7 +119,7 @@ jobs:
         run: |
           mkdir -p "$(dirname "$OXID_PATH/$MODULE_PATH")"
           rsync -a --delete "$GITHUB_WORKSPACE/" "$OXID_PATH/$MODULE_PATH/"
-            
+
 
       - name: Install module
         run: |
@@ -136,7 +128,16 @@ jobs:
           composer config repositories.$PACKAGE_NAME\
             --json '{"type":"path", "url":"$FULL_MODULE_PATH"}'
           composer config audit.block-insecure false
-          composer require $PACKAGE_NAME:* --no-interaction --no-update
+          composer require $PACKAGE_NAME:* --no-interaction --no-update          
+
+      - name: Prepare test config yml
+        run: |
+          mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
+
+      - name: Reset Oxid
+        run: |
+            vendor/bin/reset-shop          
+        
 
       - name: Install Module in Oxid
         run: |
