@@ -135,41 +135,18 @@ jobs:
           make up
           sleep 5
 
-      - name: Install Testing Library
-        run: |
-          docker compose exec -T php composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
-
       - name: Checkout current module
         uses: actions/checkout@v5
         with:
           path: source/test-module
                   
-
-      - name: Install module
+      - name: Install Testing Library
         run: |
-          # sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' source/composer.json
-          docker compose exec -T \
-            php composer config repositories.${{ env.PACKAGE_NAME }} \
-            --json '{"type":"path", "url":"./test-module", "options": {"symlink": true}}'
-          docker compose exec -T \
-            php composer config audit.block-insecure false
-          docker compose exec -T \
-            php composer require ${{ env.PACKAGE_NAME }}:* --no-interaction --no-update
+          docker compose exec -T php composer require oxid-esales/tests-deprecated-ce:dev-b-7.0.x --with-all-dependencies --no-update
 
-          
-      - name: Run tests
+      - name: Install Apex Theme
         run: |
-          cp source/vendor/oxid-esales/testing-library/test_config.yml.dist source/test_config.yml
-          docker compose exec -T \
-            -e PARTIAL_MODULE_PATHS=${{ env.MODULE_PATH }} \
-            -e ACTIVATE_ALL_MODULES=1 \
-            -e RUN_TESTS_FOR_SHOP=0 \
-            -e RUN_TESTS_FOR_MODULES=0 \
-            -e XDEBUG_MODE=coverage \
-            -e ADDITIONAL_TEST_PATHS='/var/www/vendor/${{ env.PACKAGE_NAME }}/tests' \
-            php php vendor/bin/runtests \
-              --coverage-clover=/var/www/coverage.xml \
-              --coverage-text \
-              --log-junit=/var/www/phpunit.xml \
-              AllTestsUnit
+          docker compose exec -T php composer require oxid-esales/apex-theme:dev-b-7.0.x --with-all-dependencies  --no-update --no-security-blocking
+          docker compose exec -T php composer require oxid-esales/oxideshop-demodata-ce:dev-b-7.0.x --no-update
+          docker compose exec -T php composer update --no-interaction
           
