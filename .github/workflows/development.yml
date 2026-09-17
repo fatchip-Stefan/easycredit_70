@@ -154,6 +154,7 @@ jobs:
         run: |
           docker compose exec -T php composer require symfony/dotenv:* --no-update
           docker compose exec -T php composer require mockery/mockery:* --no-update
+          docker compose exec -T php composer require oxid-esales/testing-library:* dev-b-8.0.x
 
       - name: Reset shop
         run: |
