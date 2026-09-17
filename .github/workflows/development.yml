@@ -142,6 +142,7 @@ jobs:
                   
       - name: Install Testing Library
         run: |
+          php composer config audit.block-insecure false
           docker compose exec -T php composer require oxid-esales/testing-library:dev-b-7.0.x --with-all-dependencies --no-update
 
       - name: Install Apex Theme
