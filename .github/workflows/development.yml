@@ -70,6 +70,7 @@ jobs:
       mysql:
         image: mariadb:latest
         env:
+          MYSQL_DATABASE: oxid7_testing
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
