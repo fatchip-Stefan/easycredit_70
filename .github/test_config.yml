@@ -1,5 +1,5 @@
 mandatory_parameters:
-  shop_path: source
+  shop_path: /tmp/oxid7/source
   shop_tests_path: vendor/oxid-esales/tests-deprecated-ce
   module_ids: 'osceasycredit'
 optional_parameters:
