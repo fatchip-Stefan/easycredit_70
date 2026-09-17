@@ -158,3 +158,20 @@ jobs:
       - name: Reset shop
         run: |
           docker compose exec -T php php vendor/bin/reset-shop
+          
+      - name: Run tests
+        run: |
+          cp source/vendor/oxid-esales/testing-library/test_config.yml.dist source/test_config.yml
+          docker compose exec -T \
+            -e PARTIAL_MODULE_PATHS=${{ env.MODULE_PATH }} \
+            -e ACTIVATE_ALL_MODULES=1 \
+            -e RUN_TESTS_FOR_SHOP=0 \
+            -e RUN_TESTS_FOR_MODULES=0 \
+            -e XDEBUG_MODE=coverage \
+            -e ADDITIONAL_TEST_PATHS='/var/www/vendor/${{ env.PACKAGE_NAME }}/tests' \
+            php php vendor/bin/runtests \
+              --coverage-clover=/var/www/coverage.xml \
+              --coverage-text \
+              --log-junit=/var/www/phpunit.xml \
+              AllTestsUnit
+          
