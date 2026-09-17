@@ -90,27 +90,72 @@ jobs:
 
       - name: Check Composer Version
         run: composer -V
+        
+      - name: Clone testing environment
+        run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
-      - name: Setup Oxid 7
+      - name: Clone the shop
+        run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch ${{ matrix.oxid-versions }} --single-branch source        
+
+      - name: Prepare container configuration
         run: |
-          mkdir $OXID_PATH
-          cd $OXID_PATH
-          composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project . ${{ matrix.oxid-versions }}
-          composer config audit.block-insecure false
-          composer install --no-interaction
-          cp $OXID_PATH/source/config.inc.php.dist $OXID_PATH/source/config.inc.php
-          sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7_testing|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|/tmp/oxid7/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' /tmp/oxid7/source/config.inc.php
-          sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" $OXID_PATH/source/config.inc.php
-          chmod -R 777 $OXID_PATH/source/log
+          make setup
+          make addbasicservices
+          make file=services/selenium-chrome.yml addservice
+          perl -pi\
+            -e "s#PHP_VERSION=.*#PHP_VERSION=${{ matrix.php-versions }}#g;"\
+            .env
+          perl -pi\
+            -e "s#MYSQL_VERSION=.*#MYSQL_VERSION=5.7#g;"\
+            .env
+          perl -pi\
+            -e 's#display_errors =.*#display_errors = false#g;'\
+            -e 'print "xdebug.max_nesting_level=1000\nxdebug.mode=coverage\n\n"'\
+            containers/php/custom.ini
+
+          perl -pi\
+            -e 's#/var/www/#/var/www/source/#g;'\
+            containers/httpd/project.conf
+
+      - name: Prepare shop configuration
+        run: |
+          cp source/source/config.inc.php.dist source/source/config.inc.php
+          sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
+          sed -i -e 's/<dbHost>/mysql/'\
+                 -e 's/<dbUser>/root/'\
+                 -e 's/<dbName>/example/'\
+                 -e 's/<dbPwd>/root/'\
+                 -e 's/<dbPort>/3306/'\
+                 -e 's/<sShopURL>/https:\/\/localhost.local\//'\
+                 -e 's/<sShopDir>/\/var\/www\/source\//'\
+                 -e 's/<sCompileDir>/\/var\/www\/source\/tmp\//'\
+              source/source/config.inc.php
+
+      - name: Start containers
+        run: |
+          make up
+          sleep 2
+
+      # - name: Setup Oxid 7
+      #  run: |
+          # mkdir $OXID_PATH
+          # cd $OXID_PATH
+          # composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project . ${{ matrix.oxid-versions }}
+          # composer config audit.block-insecure false
+          # composer install --no-interaction
+          # cp $OXID_PATH/source/config.inc.php.dist $OXID_PATH/source/config.inc.php
+          # sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7_testing|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|/tmp/oxid7/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' /tmp/oxid7/source/config.inc.php
+          # sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" $OXID_PATH/source/config.inc.php
+          # chmod -R 777 $OXID_PATH/source/log
           
-      - name: Install Dev Dependencies
-        run: |
-          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
-          cd $OXID_PATH
-          composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
-          composer install --no-interaction
-          composer dump-autoload
-          cat $OXID_PATH/composer.lock
+#      - name: Install Dev Dependencies
+#        run: |
+#          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
+#          cd $OXID_PATH
+#          composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
+#          composer install --no-interaction
+#          composer dump-autoload
+#          cat $OXID_PATH/composer.lock
           
       - name: Checkout current module
         uses: actions/checkout@v5
