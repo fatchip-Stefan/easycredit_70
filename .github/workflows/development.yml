@@ -19,9 +19,9 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         # oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.1-ce', 'dev-b-7.2-ce', 'dev-b-7.3-ce', 'dev-b-7.4-ce', 'dev-b-7.5-ce']
-        oxid-versions: ['7.0', '7.5']
+        oxid-versions: ['7.5']
         # php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.3']
         exclude:
           - oxid-versions: '7.0'
             php-versions: '8.2'
@@ -30,7 +30,7 @@ jobs:
           - oxid-versions: '7.5'
             php-versions: '8.1'            
           - oxid-versions: '7.5'
-            php-versions: '8.1'            
+            php-versions: '8.2'            
     name: Oxid ${{ matrix.oxid-versions }} on PHP ${{ matrix.php-versions }}
     steps:
 #      - name: Checkout
@@ -110,13 +110,13 @@ jobs:
         run: |
           docker compose exec -T \
           php composer config audit.block-insecure false
-          docker compose exec -T php composer require oxid-esales/testing-library:dev-b-7.0.x --with-all-dependencies --no-update
+          docker compose exec -T php composer require oxid-esales/testing-library:dev-b-8.0.x --with-all-dependencies --no-update
 
       - name: Install Apex Theme
         run: |
           docker compose exec -T \
           php composer config audit.block-insecure false
-          docker compose exec -T php composer require oxid-esales/apex-theme:dev-b-7.0.x --with-all-dependencies  --no-update --no-security-blocking
-          docker compose exec -T php composer require oxid-esales/oxideshop-demodata-ce:dev-b-7.0.x --no-update
+          docker compose exec -T php composer require oxid-esales/apex-theme:dev-b-8.0.x --with-all-dependencies  --no-update --no-security-blocking
+          docker compose exec -T php composer require oxid-esales/oxideshop-demodata-ce:dev-b-8.0.x --no-update
           docker compose exec -T php composer update --no-interaction
           
