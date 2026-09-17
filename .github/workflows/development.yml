@@ -67,21 +67,21 @@ jobs:
             php-versions: '8.2'
     name: Oxid ${{ matrix.oxid-versions }} on PHP ${{ matrix.php-versions }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@master
+#      - name: Checkout
+#        uses: actions/checkout@master
 
-      - name: Install PHP
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, xdebug, gd, bcmath, ctype, curl, dom, hash, iconv, intl, openssl, simplexml, soap, xsl, zip
-          tools: composer:v2
+#      - name: Install PHP
+#        uses: shivammathur/setup-php@master
+#        with:
+#          php-version: ${{ matrix.php-versions }}
+#          extensions: mbstring, xdebug, gd, bcmath, ctype, curl, dom, hash, iconv, intl, openssl, simplexml, soap, xsl, zip
+#          tools: composer:v2
 
-      - name: Check PHP Version
-        run: php -v
+#      - name: Check PHP Version
+#        run: php -v
 
-      - name: Check Composer Version
-        run: composer -V
+#      - name: Check Composer Version
+#        run: composer -V
         
       - name: Cleanup workspace
         run: |
@@ -133,7 +133,7 @@ jobs:
       - name: Start containers
         run: |
           make up
-          sleep 2
+          sleep 5
 
       # - name: Setup Oxid 7
       #  run: |
