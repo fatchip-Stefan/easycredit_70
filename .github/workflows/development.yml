@@ -135,6 +135,7 @@ jobs:
           composer install --no-interaction
           composer dump-autoload
           cat $OXID_PATH/composer.lock
+          vendor/bin/reset-shop
           
       - name: Run tests
         run: |
