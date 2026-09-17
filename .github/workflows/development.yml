@@ -142,6 +142,7 @@ jobs:
       - name: Run phpunit without testing library 
         run: |
           cd $OXID_PATH
+          mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
           php vendor/bin/phpunit --bootstrap vendor/oxid-esales/testing-library/bin/../bootstrap.php vendor/oxid-professional-services/easycredit-module/tests/Unit
           
             
