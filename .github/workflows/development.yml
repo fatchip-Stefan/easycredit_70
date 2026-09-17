@@ -137,10 +137,12 @@ jobs:
       - name: Reset Oxid
         run: |
             cd $OXID_PATH
-            mkdir -p source/tmp
-            vendor/bin/reset-shop          
-        
+            mkdir -p $OXID_PATH/source/tmp
 
+      - name: Reset Oxid
+        run: |
+          vendor/bin/reset-shop
+        
       - name: Install Module in Oxid
         run: |
           cd $OXID_PATH
