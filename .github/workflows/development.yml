@@ -103,6 +103,16 @@ jobs:
           sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" $OXID_PATH/source/config.inc.php
           chmod -R 777 $OXID_PATH/source/log
           
+      - name: Install Dev Dependencies
+        run: |
+          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
+          cd $OXID_PATH
+          composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
+          composer install --no-interaction
+          composer dump-autoload
+          cat $OXID_PATH/composer.lock
+          vendor/bin/reset-shop          
+          
       - name: Checkout current module
         uses: actions/checkout@v5
 
@@ -127,16 +137,6 @@ jobs:
           ls -la $OXID_PATH/$MODULE_PATH
           vendor/bin/oe-console oe:module:install $MODULE_PATH
           vendor/bin/oe-console oe:module:apply-configuration          
-
-      - name: Install Dev Dependencies
-        run: |
-          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
-          cd $OXID_PATH
-          composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
-          composer install --no-interaction
-          composer dump-autoload
-          cat $OXID_PATH/composer.lock
-          vendor/bin/reset-shop
           
       - name: Run tests
         run: |
