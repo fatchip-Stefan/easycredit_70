@@ -66,14 +66,6 @@ jobs:
           - oxid-versions: 'dev-b-7.5-ce'
             php-versions: '8.2'
     name: Oxid ${{ matrix.oxid-versions }} on PHP ${{ matrix.php-versions }}
-    services:
-      mysql:
-        image: mariadb:latest
-        env:
-          MYSQL_DATABASE: oxid7_testing
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
     steps:
       - name: Checkout
         uses: actions/checkout@master
