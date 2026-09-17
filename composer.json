@@ -21,6 +21,11 @@
     "conflict": {
         "oxid-esales/oxideshop-ce": "<7.0"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    },
     "autoload": {
         "psr-4": {
             "OxidSolutionCatalysts\\EasyCredit\\": "src",
