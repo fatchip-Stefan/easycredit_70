@@ -136,6 +136,7 @@ jobs:
 
       - name: Reset Oxid
         run: |
+            cd $OXID_PATH
             vendor/bin/reset-shop          
         
 
