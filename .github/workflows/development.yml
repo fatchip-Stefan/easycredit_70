@@ -151,14 +151,9 @@ jobs:
           docker compose exec -T \
             php composer require ${{ env.PACKAGE_NAME }}:* --no-interaction --no-update
 
-      - name: Install dependencies and reset shop
+      - name: Install Testing Library
         run: |
-          docker compose exec -T \
-            php composer config audit.block-insecure false
-          docker compose exec -T php composer update --no-interaction --no-scripts
-          docker compose exec -T \
-            php composer config audit.block-insecure false
-          docker compose exec -T php php vendor/bin/reset-shop
+          docker compose exec -T php composer require oxid-esales/tests-deprecated-ce:dev-b-7.0.x --with-all-dependencies --no-update
           
       - name: Run tests
         run: |
