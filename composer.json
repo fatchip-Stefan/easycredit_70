@@ -46,5 +46,10 @@
             "oxid-esales/oxideshop-unified-namespace-generator": true,
             "oxid-esales/oxideshop-composer-plugin": true
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-b-7.1.x": "7.1.x-dev"
+        }
     }
 }
