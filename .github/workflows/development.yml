@@ -142,7 +142,7 @@ jobs:
       - name: Reset Oxid
         run: |
           cd $OXID_PATH
-          $OXID_PATH/vendor/bin/reset-shop
+          /tmp/oxid7/vendor/bin/reset-shop
         
       - name: Install Module in Oxid
         run: |
