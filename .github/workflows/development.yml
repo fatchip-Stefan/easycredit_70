@@ -137,10 +137,8 @@ jobs:
 
       - name: Install Testing Library
         run: |
-          docker compose exec -T php composer remove phpunit/phpunit --dev
-          docker compose exec -T php composer require --dev phpunit/phpunit:^9.6 oxid-esales/testing-library:dev-b-7.0.x
-          docker compose exec -T php composer update --no-interaction --no-progress
-          
+          docker compose exec -T php composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
+
       - name: Checkout current module
         uses: actions/checkout@v5
         with:
