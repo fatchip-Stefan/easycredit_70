@@ -9,8 +9,6 @@ optional_parameters:
   test_database_name: oxid7_testing
   restore_after_acceptance_tests: false
   restore_after_unit_tests: false
-  tmp_path: /tmp/oxid_test_library/
-  database_restoration_class: DatabaseRestorer
   activate_all_modules: false
   run_tests_for_shop: false
   run_tests_for_modules: true
