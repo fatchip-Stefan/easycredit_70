@@ -153,7 +153,7 @@ jobs:
 
       - name: Install Testing Library
         run: |
-          docker compose exec -T php composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x --with-all-dependencies
+          docker compose exec -T php composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x --no-update
           
       - name: Run tests
         run: |
