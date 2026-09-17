@@ -60,7 +60,7 @@ jobs:
         run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
       - name: Clone the shop
-        run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source        
+        run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-7.5.x --single-branch source        
 
       - name: Prepare container configuration
         run: |
@@ -111,7 +111,7 @@ jobs:
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T \
-            php composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
+            php composer require oxid-esales/testing-library:dev-b-8.0.x
 
       - name: Install Apex Theme
         run: |
