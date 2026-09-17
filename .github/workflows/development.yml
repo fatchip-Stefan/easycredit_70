@@ -134,16 +134,16 @@ jobs:
           composer dump-autoload
           cat $OXID_PATH/composer.lock
           
-      # - name: Run tests
-      #  run: |
-      #    mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
-      #    php $OXID_PATH/vendor/bin/runtests $OXID_PATH/$MODULE_TESTS_PATH        
-          
-      - name: Run phpunit without testing library 
+      - name: Run tests
         run: |
-          cd $OXID_PATH
           mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
-          php vendor/bin/phpunit --bootstrap vendor/oxid-esales/testing-library/bin/../bootstrap.php vendor/oxid-professional-services/easycredit-module/tests/Unit
+          php $OXID_PATH/vendor/bin/runtests $OXID_PATH/$MODULE_TESTS_PATH        
+          
+      # - name: Run phpunit without testing library 
+      #  run: |
+      #    cd $OXID_PATH
+      #    mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
+      #    php vendor/bin/phpunit --bootstrap vendor/oxid-esales/testing-library/bin/../bootstrap.php vendor/oxid-professional-services/easycredit-module/tests/Unit
           
             
 
