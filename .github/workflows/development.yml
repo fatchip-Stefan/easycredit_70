@@ -134,7 +134,7 @@ jobs:
         run: |
           mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
 
-      - name: Reset Oxid
+      - name: make sure tmp exists
         run: |
             cd $OXID_PATH
             mkdir -p $OXID_PATH/source/tmp
@@ -142,7 +142,7 @@ jobs:
       - name: Reset Oxid
         run: |
           cd $OXID_PATH
-          /tmp/oxid7/vendor/bin/reset-shop
+          $OXID_PATH/vendor/bin/reset-shop
         
       - name: Install Module in Oxid
         run: |
