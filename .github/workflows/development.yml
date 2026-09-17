@@ -135,79 +135,31 @@ jobs:
           make up
           sleep 5
 
-      # - name: Setup Oxid 7
-      #  run: |
-          # mkdir $OXID_PATH
-          # cd $OXID_PATH
-          # composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project . ${{ matrix.oxid-versions }}
-          # composer config audit.block-insecure false
-          # composer install --no-interaction
-          # cp $OXID_PATH/source/config.inc.php.dist $OXID_PATH/source/config.inc.php
-          # sed -i 's|<dbHost>|127.0.0.1|; s|<dbName>|oxid7_testing|; s|<dbUser>|root|; s|<dbPwd>|root|; s|<dbPort>|3306|; s|<sShopURL>|http://localhost|; s|<sShopDir>|/tmp/oxid7/source|; s|<sCompileDir>|/tmp/oxid7/source/tmp|; s|\$this->iDebug = 0|\$this->iDebug = 1|' /tmp/oxid7/source/config.inc.php
-          # sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" $OXID_PATH/source/config.inc.php
-          # chmod -R 777 $OXID_PATH/source/log
-          
-#      - name: Install Dev Dependencies
-#        run: |
-#          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' $OXID_PATH/composer.json
-#          cd $OXID_PATH
-#          composer require --dev -n --no-progress oxid-esales/testing-library:dev-b-8.0.x
-#          composer install --no-interaction
-#          composer dump-autoload
-#          cat $OXID_PATH/composer.lock
-          
       - name: Checkout current module
         uses: actions/checkout@v5
-
-      - name: copy module
-        run: |
-          mkdir -p "$(dirname "$OXID_PATH/$MODULE_PATH")"
-          rsync -a --delete "$GITHUB_WORKSPACE/" "$OXID_PATH/$MODULE_PATH/"
-
+        with:
+          path: source/test-module
 
       - name: Install module
         run: |
-          cd $OXID_PATH
-          ls -la $OXID_PATH/$MODULE_PATH
-          composer config repositories.$PACKAGE_NAME\
-            --json '{"type":"path", "url":"$FULL_MODULE_PATH"}'
-          composer config audit.block-insecure false
-          composer require $PACKAGE_NAME:* --no-interaction --no-update          
+          docker compose exec -T \
+            php composer config repositories.${{ env.PACKAGE_NAME }} \
+            --json '{"type":"path", "url":"./test-module", "options": {"symlink": true}}'
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T \
+            php composer require ${{ env.PACKAGE_NAME }}:* --no-interaction --no-update
 
-      - name: Prepare test config yml
+      - name: Install additional modules
         run: |
-          mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
+          docker compose exec -T php composer require symfony/dotenv:* --no-update
+          docker compose exec -T php composer require mockery/mockery:* --no-update
 
-      - name: make sure tmp exists
+      - name: Install dependencies and reset shop
         run: |
-            cd $OXID_PATH
-            mkdir -p $OXID_PATH/source/tmp
-
-      - name: Reset Oxid
-        run: |
-          cd $OXID_PATH
-          ls -la source/tmp
-          $OXID_PATH/vendor/bin/reset-shop
-        
-      - name: Install Module in Oxid
-        run: |
-          cd $OXID_PATH
-          ls -la $OXID_PATH/$MODULE_PATH
-          vendor/bin/oe-console oe:module:install $MODULE_PATH
-          vendor/bin/oe-console oe:module:apply-configuration          
-          
-      - name: Run tests
-        run: |
-          mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
-          php $OXID_PATH/vendor/bin/runtests $OXID_PATH/$MODULE_TESTS_PATH        
-          
-      # - name: Run phpunit without testing library 
-      #  run: |
-      #    cd $OXID_PATH
-      #    mv $FULL_MODULE_PATH/.github/test_config.yml $OXID_PATH/test_config.yml
-      #    php vendor/bin/phpunit --bootstrap vendor/oxid-esales/testing-library/bin/../bootstrap.php vendor/oxid-professional-services/easycredit-module/tests/Unit
-          
-            
-
-          
-          
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T php composer update --no-interaction --no-scripts
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T php php vendor/bin/reset-shop
