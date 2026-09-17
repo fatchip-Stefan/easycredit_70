@@ -91,6 +91,13 @@ jobs:
       - name: Check Composer Version
         run: composer -V
         
+      - name: Cleanup workspace
+        run: |
+          ls -la ./
+          sudo rm -rf ./* || true
+          sudo rm -rf ./.??* || true
+          ls -la ./        
+        
       - name: Clone testing environment
         run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
