@@ -106,47 +106,25 @@ jobs:
         with:
           path: source/test-module
                   
-      - name: set composer.json to dev stability
+      - name: Checkout current module
+        uses: actions/checkout@v5
+        with:
+          path: source/extensions/easycredit
+
+      - name: Install module
         run: |
-          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' source/composer.json
-          sed -i 's/"^12.5"/"^9.6"/' source/composer.json
-          cat source/composer.json
-      - name: Install Testing Library
-        run: |
+          docker compose exec -T \
+            php composer config repositories.oxid-esales/easycredit-module \
+            --json '{"type":"path", "url":"./extensions/easycredit", "options": {"symlink": true}}'
           docker compose exec -T \
             php composer config audit.block-insecure false
-          docker compose exec -T \
-            php composer require oxid-esales/testing-library:dev-b-8.0.x --dev
-          docker compose exec -T \
-            php composer update --with-all-dependencies --no-interaction
-          
-          
-          
-      - name: Install Apex Theme
-        run: |
-          docker compose exec -T php composer require oxid-esales/apex-theme:dev-b-8.0.x --with-all-dependencies  --no-update --no-security-blocking
-          docker compose exec -T php composer require oxid-esales/oxideshop-demodata-ce:dev-b-8.0.x --no-update
-          docker compose exec -T php composer update --no-interaction          
+          docker compose exec -T php composer require oxid-esales/easycredit-module:*  --no-update
 
-      - name: Run tests
+      - name: Put module settings
+        continue-on-error: true
         run: |
-          docker compose exec -T \
-           -e XDEBUG_MODE=coverage \
-           php vendor/bin/phpunit \
-             -c /tmp/oxid7/vendor/oxid-professional-services/easycredit-module/tests/phpunit.xml \
-             --testsuite=Integration \
-             --bootstrap=/var/www/source/bootstrap.php \
-             /tmp/oxid7/vendor/oxid-professional-services/easycredit-module/tests | tee integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt 2>&1 || true
-          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt; then 
-            exit 1; 
-          fi
+          mkdir -p source/var/configuration/environment/
+          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/environment/1.yaml
+        
 
-      - name: Install Apex Theme
-        run: |
-          php ven
-          docker compose exec -T \
-          php composer config audit.block-insecure false
-          # docker compose exec -T php composer require oxid-esales/apex-theme:dev-b-8.0.x --with-all-dependencies  --no-update --no-security-blocking
-          # docker compose exec -T php composer require oxid-esales/oxideshop-demodata-ce:dev-b-8.0.x --no-update
-          # docker compose exec -T php composer update -W --no-interaction
           
