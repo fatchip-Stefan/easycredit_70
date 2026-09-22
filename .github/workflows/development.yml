@@ -109,7 +109,7 @@ jobs:
       - name: set composer.json to dev stability
         run: |
           sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' source/composer.json
-          sed -i 's/"phpunit/phpunit": "^12.5",/"phpunit/phpunit": "^9.6",/' source/composer.json
+          sed -i 's/"^12.5"/"^9.6"/' source/composer.json
           cat source/composer.json
       - name: Install Testing Library
         run: |
