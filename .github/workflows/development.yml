@@ -127,6 +127,12 @@ jobs:
             --shop-directory /var/www/source \
             --compile-directory /var/www/source/tmp
           
+      - name: Install Easycredit Module nach oben geschioben
+        run: |
+          docker compose exec -T php ls -la /var/www/
+          docker compose exec -T php ls -la /var/www/extensions/easycredit
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit          
+          
       - name: Install Apex Theme
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
@@ -140,12 +146,7 @@ jobs:
         run: |          
           docker compose exec -T \
             php composer require oxid-esales/testing-library:dev-b-8.0.x
-          
-#      - name: Install Easycredit Module
-#        run: |
-#          docker compose exec -T php ls -la /var/www/
-#          docker compose exec -T php ls -la /var/www/extensions/easycredit
-#          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit
+        
 
       - name: Activate Easycredit Module
         run: |
