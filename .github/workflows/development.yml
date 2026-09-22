@@ -134,12 +134,12 @@ jobs:
           
       - name: Install Apex Theme
         run: |
-          docker compose exec -T php bin/oe-console oe:theme:activate apex
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
 
       - name: Activate Easycredit Module
         run: |
-          docker compose exec -T php bin/oe-console oe:module:activate osceasycredit
-          docker compose exec -T php bin/oe-console oe:cache:clear
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear
           
           
         
