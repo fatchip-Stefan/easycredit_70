@@ -175,7 +175,9 @@ jobs:
 
       - name: add test_yaml
         run: |
-          docker compose exec -T php mv /var/www/extensions/easycredit/.github/test_config.yml /var/www/source/test_config.yml
+          docker compose exec -T php ls -la /var/www
+          docker compose exec -T php mv /var/www/extensions/easycredit/.github/test_config.yml /var/www/test_config.yml
+          
 
       - name: Run tests
         run: |
