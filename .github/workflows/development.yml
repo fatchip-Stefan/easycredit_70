@@ -141,6 +141,7 @@ jobs:
           cd /var/www
           ls -la source
           ls -la source/extensions
+          docker compose exec -T php cat /var/www/composer.json
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install source/extensions/easycredit 
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear
