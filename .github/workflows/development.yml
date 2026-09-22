@@ -126,6 +126,7 @@ jobs:
         run: |
           mkdir -p source/var/configuration/shops/1/modules/osceasycredit.yaml
           echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
+          cat source/var/configuration/shops/1/modules/osceasycredit.yaml
           
       - name: Setup Shop and demodata
         run: |
