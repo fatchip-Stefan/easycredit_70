@@ -116,8 +116,6 @@ jobs:
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T \
-            php composer require phpunit/phpunit:^9.6 --dev --no-update
-          docker compose exec -T \
             php composer require oxid-esales/testing-library:dev-b-8.0.x --dev
           docker compose exec -T \
             php composer update --with-all-dependencies --no-interaction
