@@ -165,12 +165,13 @@ jobs:
       - name: Put module settings
         continue-on-error: true
         run: |
-          docker compose exec -T php mkdir -p /var/www/var/configuration/shops/1/modules/osceasycredit.yaml
+          # docker compose exec -T php mkdir -p /var/www/var/configuration/shops/1/modules/osceasycredit.yaml
           docker compose exec -T php echo "${{ secrets.MODULE_SETTINGS }}" > /var/www/var/configuration/shops/1/modules/osceasycredit.yaml
           docker compose exec -T php cat /var/www/var/configuration/shops/1/modules/osceasycredit.yaml          
           
       - name: Run tests
         run: |
+          docker compose exec -T php  /var/www/vendor/bin 
           docker compose exec -T \
            -e XDEBUG_MODE=coverage \
            php vendor/bin/phpunit \
