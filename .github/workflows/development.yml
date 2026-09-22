@@ -132,6 +132,9 @@ jobs:
             --shop-directory /var/www/source \
             --compile-directory /var/www/source/tmp
           
+      - name: make sure log folder exists
+        run: |
+          docker compose exec -T php mkdir -p /var/www/source/log
       - name: Install Easycredit Module nach oben geschioben
         run: |
           docker compose exec -T php ls -la /var/www/
