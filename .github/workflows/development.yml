@@ -142,16 +142,16 @@ jobs:
           docker compose exec -T \
           php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
 
-      - name: Install Easycredit Module
-        run: |
-          docker compose exec -T php ls -la /var/www/
-          docker compose exec -T php ls -la /var/www/extensions/easycredit
-          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit
+    #  - name: Install Easycredit Module
+    #    run: |
+    #      docker compose exec -T php ls -la /var/www/
+    #      docker compose exec -T php ls -la /var/www/extensions/easycredit
+    #      docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit
           
-      - name: Install Testing Lib
-        run: |          
-          docker compose exec -T \
-            php composer require oxid-esales/testing-library:dev-b-8.0.x
+      # - name: Install Testing Lib
+      #   run: |          
+      #     docker compose exec -T \
+      #       php composer require oxid-esales/testing-library:dev-b-8.0.x
         
 
       - name: Activate Easycredit Module
