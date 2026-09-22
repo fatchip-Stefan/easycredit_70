@@ -106,6 +106,10 @@ jobs:
         with:
           path: source/test-module
                   
+      - name: set composer.json to dev stability
+        run: |
+          sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' source/composer.json
+          cat source/composer.json
       - name: Install Testing Library
         run: |
           docker compose exec -T \
