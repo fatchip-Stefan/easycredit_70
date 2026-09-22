@@ -102,6 +102,11 @@ jobs:
         uses: actions/checkout@v5
         with:
           path: source/extensions/easycredit
+          
+      - name: set composer.json to dev stability
+        run: |
+          docker compose exec -T \
+          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json          
 
       - name: Install module
         run: |
@@ -136,11 +141,6 @@ jobs:
       - name: Install Apex Theme
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
-
-      - name: set composer.json to dev stability
-        run: |
-          docker compose exec -T \
-          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
 
     #  - name: Install Easycredit Module
     #    run: |
