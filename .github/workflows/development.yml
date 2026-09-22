@@ -112,6 +112,7 @@ jobs:
             php composer config audit.block-insecure false
           docker compose exec -T php composer require oxid-esales/easycredit-module:*  --no-update
           docker compose exec -T php composer dump
+          docker compose exec -T php composer install --no-progress --no-suggest --no-interaction
           docker compose exec -T php cat composer.json
 
       # - name: Put module settings
