@@ -172,7 +172,11 @@ jobs:
           # docker compose exec -T php mkdir -p /var/www/var/configuration/shops/1/modules/osceasycredit.yaml
           echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
           cat source/var/configuration/shops/1/modules/osceasycredit.yaml          
-          
+
+      - name: add test_yaml
+        run: |
+          mv source/extensions/easycredit/.github/test_config.yml source/source/test_config.yml
+
       - name: Run tests
         run: |
           docker compose exec -T php ls -la  /var/www/vendor/bin 
