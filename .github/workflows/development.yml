@@ -125,9 +125,9 @@ jobs:
       - name: Put module settings
         continue-on-error: true
         run: |
-          mkdir -p source/source/var/configuration/shops/1/modules/osceasycredit.yaml
+          mkdir -p source/var/configuration/shops/1/modules/osceasycredit.yaml
           echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
-          cat source/source/var/configuration/shops/1/modules/osceasycredit.yaml
+          cat source/var/configuration/shops/1/modules/osceasycredit.yaml
           
       - name: Setup Shop and demodata
         run: |
