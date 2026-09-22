@@ -131,7 +131,8 @@ jobs:
             --shop-url http://localhost.local \
             --shop-directory /var/www/source \
             --compile-directory /var/www/source/tmp
-          
+            -- language=de
+
       - name: make sure log folder exists
         run: |
           docker compose exec -T php mkdir -p /var/www/source/log
