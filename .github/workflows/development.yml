@@ -111,9 +111,8 @@ jobs:
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T php composer require oxid-professional-services/easycredit-module:*  --no-update
-          docker compose exec -T php composer install --no-progress --no-suggest --no-interaction
+          docker compose exec -T php composer update
           docker compose exec -T php composer dump
-      
           docker compose exec -T php cat composer.json
           
       - name: Setup Shop and demodata
