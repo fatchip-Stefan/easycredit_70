@@ -114,14 +114,6 @@ jobs:
           docker compose exec -T php composer dump
           docker compose exec -T php composer install --no-progress --no-suggest --no-interaction
           docker compose exec -T php cat composer.json
-
-      # - name: Put module settings
-      #  continue-on-error: true
-      #  run: |
-      #    ls -la source/
-          # mkdir -p source/var/configuration/shops/1/modules/osceasycredit.yaml
-          # echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
-          # cat source/var/configuration/shops/1/modules/osceasycredit.yaml
           
       - name: Setup Shop and demodata
         run: |
@@ -158,6 +150,13 @@ jobs:
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install /var/www/extensions/easycredit 
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear
+          
+      - name: Put module settings
+        continue-on-error: true
+        run: |
+          docker compose exec -T php mkdir -p /var/www/var/configuration/shops/1/modules/osceasycredit.yaml
+          docker compose exec -T php echo "${{ secrets.MODULE_SETTINGS }}" > /var/www/var/configuration/shops/1/modules/osceasycredit.yaml
+          docker compose exec -T php cat /var/www/var/configuration/shops/1/modules/osceasycredit.yaml          
           
       - name: Run tests
         run: |
