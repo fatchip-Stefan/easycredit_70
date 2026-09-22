@@ -145,7 +145,7 @@ jobs:
         run: |
           docker compose exec -T php ls -la /var/www/
           docker compose exec -T php ls -la /var/www/extensions/easycredit
-          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install /var/www/extensions/easycredit
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit
 
       - name: Activate Easycredit Module
         run: |
