@@ -61,8 +61,12 @@ jobs:
         run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
       - name: Clone the shop
-        # run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source        
-        run: composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project source ${{ matrix.oxid-versions }}
+        # run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
+        run: |
+          composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
+          cd source
+          composer install --no-progress --no-suggest --no-interaction
+          
         
       - name: Prepare container configuration
         run: |
@@ -86,8 +90,8 @@ jobs:
 
       - name: Prepare shop configuration
         run: |
-          cp source/config.inc.php.dist source/config.inc.php
-          sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/.htaccess
+          cp source/source/config.inc.php.dist source/source/config.inc.php
+          sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
           sed -i -e 's/<dbHost>/mysql/'\
                  -e 's/<dbUser>/root/'\
                  -e 's/<dbName>/example/'\
@@ -96,7 +100,7 @@ jobs:
                  -e 's/<sShopURL>/https:\/\/localhost.local\//'\
                  -e 's/<sShopDir>/\/var\/www\/source\//'\
                  -e 's/<sCompileDir>/\/var\/www\/source\/tmp\//'\
-              source/config.inc.php
+              source/source/config.inc.php
 
       - name: Start containers
         run: |
