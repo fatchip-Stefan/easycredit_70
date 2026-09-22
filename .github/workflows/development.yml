@@ -100,11 +100,6 @@ jobs:
         run: |
           make up
           sleep 5
-
-      - name: Checkout current module
-        uses: actions/checkout@v5
-        with:
-          path: source/test-module
                   
       - name: Checkout current module
         uses: actions/checkout@v5
