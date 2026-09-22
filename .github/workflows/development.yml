@@ -106,11 +106,11 @@ jobs:
       - name: Install module
         run: |
           docker compose exec -T \
-            php composer config repositories.oxid-esales/easycredit-module \
+            php composer config repositories.oxid-professional-services/easycredit-module \
             --json '{"type":"path", "url":"/var/www/extensions/easycredit", "options": {"symlink": true}}'
           docker compose exec -T \
             php composer config audit.block-insecure false
-          docker compose exec -T php composer require oxid-esales/easycredit-module:*  --no-update
+          docker compose exec -T php composer require oxid-professional-services/easycredit-module:*  --no-update
           docker compose exec -T php composer dump
           # docker compose exec -T php composer install --no-progress --no-suggest --no-interaction
           docker compose exec -T php cat composer.json
