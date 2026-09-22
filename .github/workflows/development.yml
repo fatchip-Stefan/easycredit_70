@@ -111,8 +111,14 @@ jobs:
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T \
-            php composer require --dev oxid-esales/testing-library:dev-b-8.0.x  --with-all-dependencies  --no-update --no-security-blocking
-
+            php composer require phpunit/phpunit:^9.6 --dev --no-update
+          docker compose exec -T \
+            php composer require oxid-esales/testing-library:dev-b-8.0.x --dev --with-all-dependencies --no-update --no-security-blocking
+          docker compose exec -T \
+            php composer update --with-all-dependencies --no-interaction
+          
+          
+          
       - name: Install Apex Theme
         run: |
           docker compose exec -T php composer require oxid-esales/apex-theme:dev-b-8.0.x --with-all-dependencies  --no-update --no-security-blocking
