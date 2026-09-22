@@ -131,7 +131,7 @@ jobs:
             --shop-url http://localhost.local \
             --shop-directory /var/www/source \
             --compile-directory /var/www/source/tmp
-            -- language=de
+            --language=de
 
       - name: make sure log folder exists
         run: |
