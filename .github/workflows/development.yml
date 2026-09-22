@@ -101,6 +101,7 @@ jobs:
                  -e 's/<sShopDir>/\/var\/www\/source\//'\
                  -e 's/<sCompileDir>/\/var\/www\/source\/tmp\//'\
               source/source/config.inc.php
+          cat source/source/config.inc.php
 
       - name: Start containers
         run: |
@@ -124,14 +125,14 @@ jobs:
       - name: Put module settings
         continue-on-error: true
         run: |
-          mkdir -p source/var/configuration/shops/1/modules/osceasycredit.yaml
+          mkdir -p source/source/var/configuration/shops/1/modules/osceasycredit.yaml
           echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
-          cat source/var/configuration/shops/1/modules/osceasycredit.yaml
+          cat source/source/var/configuration/shops/1/modules/osceasycredit.yaml
           
       - name: Setup Shop and demodata
         run: |
           ls -la source/vendor/bin
-          docker compose exec -T php php source/vendor/bin/oe-console oe:setup:shop \
+          docker compose exec -T php bin/oe-console oe:setup:shop \
             --db-host mysql \
             --db-port 3306 \
             --db-name example \
