@@ -141,11 +141,16 @@ jobs:
           docker compose exec -T \
             php composer require oxid-esales/testing-library:dev-b-8.0.x
           
-
+      - name: Install Easycredit Module
+        run: |
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install /var/www/extensions/easycredit
+          
       - name: Activate Easycredit Module
         run: |
-          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install /var/www/extensions/easycredit 
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
+          
+      - name: Clear Oxid Cache
+        run: |          
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear
           
       - name: Put module settings
