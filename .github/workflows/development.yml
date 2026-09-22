@@ -138,6 +138,11 @@ jobs:
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
 
+      - name: set composer.json to dev stability
+        run: |
+          docker compose exec -T \
+          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
+
       - name: Install Testing Lib
         run: |          
           docker compose exec -T \
