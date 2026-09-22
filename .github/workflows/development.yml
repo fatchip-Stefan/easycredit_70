@@ -124,13 +124,12 @@ jobs:
       - name: Put module settings
         continue-on-error: true
         run: |
-          mkdir -p source/var/configuration/environment/
-          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/environment/1.yaml
+          mkdir -p source/var/configuration/shops/1/modules/osceasycredit.yaml
+          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
           
       - name: Setup Shop and demodata
         run: |
-          ls -la source/
-          ls -la source/vendor/
+          ls -la source/vendor/bin
           docker compose exec -T php source/vendor/bin/oe-console oe:setup:shop \
             --db-host mysql \
             --db-port 3306 \
