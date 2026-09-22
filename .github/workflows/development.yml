@@ -111,6 +111,8 @@ jobs:
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T php composer require oxid-esales/easycredit-module:*  --no-update
+          docker compose exec -T php composer dump
+          docker compose exec -T php cat composer.json
 
       # - name: Put module settings
       #  continue-on-error: true
@@ -138,6 +140,7 @@ jobs:
 
       - name: Activate Easycredit Module
         run: |
+          cat /var/www/composer.json
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install /var/www/extensions/easycredit 
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear
