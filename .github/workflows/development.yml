@@ -60,8 +60,9 @@ jobs:
         run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
       - name: Clone the shop
-        run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source        
-
+        # run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source        
+        run: composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
+        
       - name: Prepare container configuration
         run: |
           make setup
