@@ -154,11 +154,23 @@ jobs:
         run: |
           docker compose exec -T php  ls -la /var/www
           docker compose exec -T php  ls -la /var/www/source
+          docker compose exec -T php  ls -la /var/www/extensions/easycredit
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install /var/www/extensions/easycredit 
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear
           
-          
+      - name: Run tests
+        run: |
+          docker compose exec -T \
+           -e XDEBUG_MODE=coverage \
+           php vendor/bin/phpunit \
+             -c /var/www/extensions/easycredit/tests/phpunit.xml \
+             --testsuite=Integration \
+             --bootstrap=/var/www/source/bootstrap.php \
+             var/www/extensions/easycredit/tests/tests | tee integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt 2>&1 || true
+          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt; then 
+            exit 1; 
+          fi          
         
 
           
