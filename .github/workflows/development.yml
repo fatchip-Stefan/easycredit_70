@@ -173,7 +173,7 @@ jobs:
       - name: Put module settings
         run: |
           mkdir -p source/var/www/var/configuration/shops/1/modules
-          echo "${{ secrets.MODULE_SETTINGS_1 }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml          
+          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml          
 
       - name: Activate Easycredit Module
         run: |
