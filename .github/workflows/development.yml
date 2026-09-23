@@ -169,6 +169,11 @@ jobs:
         continue-on-error: true
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
+          
+      - name: Put module settings
+        run: |
+          docker compose exec -T php mkdir -p /var/www/var/configuration/shops/1/modules
+          docker compose exec -T php echo "${{ secrets.MODULE_SETTINGS_1 }}" > /var/www/var/configuration/shops/1/modules/osceasycredit.yaml          
 
       - name: Activate Easycredit Module
         run: |
@@ -183,13 +188,7 @@ jobs:
           docker compose exec -T \
             php composer require oxid-esales/testing-library:dev-b-8.0.x
           docker compose exec -T \
-            php composer update
-         
-      - name: Put module settings
-        run: |
-          mkdir -p source/var/configuration/environment/
-          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/environment/1.yaml
-          cat source/var/configuration/shops/1/modules/osceasycredit.yaml          
+            php composer update          
 
       - name: add test_yaml
         run: |
