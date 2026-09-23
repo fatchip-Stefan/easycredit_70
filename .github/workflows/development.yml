@@ -288,19 +288,22 @@ jobs:
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T php composer update --no-interaction --no-scripts
-          docker compose exec -T \
-            php composer config audit.block-insecure false
           docker compose exec -T php php vendor/bin/reset-shop      
-
+          
+      - name: Test0
+        run: |
+          docker compose exec -T \
+          php ls -la /var/www/vendor/bin  
+          
       - name: Checkout current module
         uses: actions/checkout@v5
         with:
           path: source/extensions/easycredit
-
-      - name: set composer.json to dev stability
-        run: |
-          docker compose exec -T \
-          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
+          
+      #- name: set composer.json to dev stability
+      #  run: |
+      #    docker compose exec -T \
+      #    php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
           
       - name: Test1
         run: |
