@@ -213,9 +213,6 @@ jobs:
         operating-system: [ubuntu-latest]
         oxid-versions: ['6.5']
         php-versions: ['8.0', '8.1']
-        exclude:
-          - oxid-versions: '6.5'
-          - php-versions: '8.0'
     steps:
       - name: Checkout
         uses: actions/checkout@master
