@@ -2,26 +2,20 @@ name: CI
 
 on: [push, pull_request]
 
-env:
-  PACKAGE_NAME: 'oxid-professional-services/easycredit-module'
-  MODULE_PATH: 'vendor/oxid-professional-services/easycredit-module'
-  MODULE_TESTS_PATH: 'vendor/oxid-professional-services/easycredit-module/tests'
-  FULL_MODULE_PATH: '/tmp/oxid7/vendor/oxid-professional-services/easycredit-module'
-  MODULE_BRANCH: 'dev-main'
-  OXID_PATH: '/tmp/oxid7'
-
 jobs:
-  run:
+  run-b7-matrix:
+    if: startsWith(github.ref_name, 'b-7.')
     runs-on: ${{ matrix.operating-system }}
     strategy:
       max-parallel: 15
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        # oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.1-ce', 'dev-b-7.2-ce', 'dev-b-7.3-ce', 'dev-b-7.4-ce', 'dev-b-7.5-ce'
         oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.1-ce', 'dev-b-7.2-ce', 'dev-b-7.3-ce', 'dev-b-7.4-ce', 'dev-b-7.5-ce']
         php-versions: ['8.1', '8.2', '8.3', '8.4', '8.5']
         exclude:
+          - oxid-versions: 'dev-b-7.0-ce'
+          - php-versions: '8.1'
           - oxid-versions: 'dev-b-7.0-ce'
             php-versions: '8.2'
           - oxid-versions: 'dev-b-7.0-ce'
@@ -52,6 +46,19 @@ jobs:
             php-versions: '8.1'            
           - oxid-versions: 'dev-b-7.5-ce'
             php-versions: '8.2'    
+  run-b6-matrix:            
+    if: startsWith(github.ref_name, 'b-6.')
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest]
+        oxid-versions: ['dev-b-6.5-ce']
+        php-versions: ['8.0', '8.1']
+        exclude:
+          - oxid-versions: 'dev-b-7.0-ce'
+          - php-versions: '8.1'
 
     name: Oxid ${{ matrix.oxid-versions }} on PHP ${{ matrix.php-versions }}
     steps:
@@ -82,6 +89,7 @@ jobs:
         run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
       - name: Clone the shop
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           # git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
           composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
@@ -130,7 +138,8 @@ jobs:
           docker compose exec -T \
           php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json          
 
-      - name: Install module
+      - name: Install module Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T \
             php composer config repositories.oxid-professional-services/easycredit-module \
@@ -142,7 +151,8 @@ jobs:
           docker compose exec -T php composer dump
           docker compose exec -T php cat composer.json
           
-      - name: Setup Shop and demodata
+      - name: Setup Shop and demodata Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:setup:shop \
             --db-host mysql \
@@ -159,53 +169,48 @@ jobs:
         run: |
           docker compose exec -T php mkdir -p /var/www/source/log
 
-      - name: Install Easycredit Module nach oben geschioben
+      - name: Install Easycredit Module Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
-          docker compose exec -T php ls -la /var/www/
-          docker compose exec -T php ls -la /var/www/extensions/easycredit
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit          
           
-      - name: Install Apex Theme
-        continue-on-error: true
+      - name: Install Apex Theme Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex          
 
-      - name: Activate Easycredit Module
+      - name: Activate Easycredit Module Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
 
       - name: Put module settings
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           mkdir -p source/var/www/var/configuration/shops/1/modules
           echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
           
-      - name: Clear Oxid Cache
+      - name: Clear Oxid 7 Cache 
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear          
           
-      - name: Install Testing Lib
+      - name: Install Testing Lib Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T \
             php composer require oxid-esales/testing-library:dev-b-8.0.x
           docker compose exec -T \
             php composer update          
 
-      - name: add test_yaml
+      - name: add test_yaml Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T php ls -la /var/www
-          docker compose exec -T php mv /var/www/extensions/easycredit/.github/test_config.yml /var/www/test_config.yml
-
-      - name: Test 1
-        run: |
-          docker compose exec -T \
-          php ls -la /var/www/vendor/oxid-professional-services/easycredit-module
-          
-      - name: Test 2
-        run: |
-          docker compose exec -T \
-           php cat /var/www/var/configuration/shops/1/modules/osceasycredit.yaml          
+          docker compose exec -T php mv /var/www/extensions/easycredit/.github/test_config.yml /var/www/test_config.yml          
                 
-      - name: Run phpunit tests
+      - name: Run phpunit tests Oxid 7
+        if: startsWith(github.ref_name, 'b-7.')
         run: |
           docker compose exec -T \
            php ls -la /var/www/extensions/easycredit
