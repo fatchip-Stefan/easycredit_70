@@ -300,8 +300,22 @@ jobs:
       - name: set composer.json to dev stability
         run: |
           docker compose exec -T \
-          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json          
-
+          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
+          
+      - name: Test1
+        run: |
+          ls -la source
+          
+      - name: Test2
+        run: |
+          docker compose exec -T \
+          php ls -la /var/www        
+          
+      - name: Test3
+        run: |
+          docker compose exec -T \
+          php ls -la /var/www/var          
+          
       - name: Install module
         run: |
           docker compose exec -T \
