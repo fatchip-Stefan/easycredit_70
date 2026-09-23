@@ -200,8 +200,10 @@ jobs:
           if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php-versions }}_phpunit_log.txt; then 
             exit 1; 
           fi
+
+
           
-  run-b6-matrix:            
+  run-b6-matrix:
     if: startsWith(github.ref_name, 'b-6.')
     runs-on: ${{ matrix.operating-system }}
     strategy:
