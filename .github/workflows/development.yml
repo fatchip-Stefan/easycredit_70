@@ -314,7 +314,12 @@ jobs:
       - name: Test3
         run: |
           docker compose exec -T \
-          php ls -la /var/www/var          
+          php ls -la /var/www/var
+          
+      - name: Test4
+        run: |
+          docker compose exec -T \
+          php ls -la /var/www/vendor/bin                
           
       - name: Install module
         run: |
