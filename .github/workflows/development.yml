@@ -18,8 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        # oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.1-ce', 'dev-b-7.2-ce', 'dev-b-7.3-ce', 'dev-b-7.4-ce', 'dev-b-7.5-ce']
-        # oxid-versions: ['7.5']
+        # oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.1-ce', 'dev-b-7.2-ce', 'dev-b-7.3-ce', 'dev-b-7.4-ce', 'dev-b-7.5-ce'
         oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.5-ce']
         # php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
         php-versions: ['8.0','8.3']
@@ -61,7 +60,14 @@ jobs:
         run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
       - name: Clone the shop
-        run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
+        run: |
+          # git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
+          composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
+          cd source
+          composer config audit.block-insecure false
+          composer install
+          pwd
+          ls -la source
         
       - name: Prepare container configuration
         run: |
