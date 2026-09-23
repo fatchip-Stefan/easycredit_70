@@ -172,8 +172,8 @@ jobs:
           
       - name: Put module settings
         run: |
-          docker compose exec -T php mkdir -p /var/www/var/configuration/shops/1/modules
-          docker compose exec -T php echo "${{ secrets.MODULE_SETTINGS_1 }}" > /var/www/var/configuration/shops/1/modules/osceasycredit.yaml          
+          mkdir -p source/var/www/var/configuration/shops/1/modules
+          echo "${{ secrets.MODULE_SETTINGS_1 }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml          
 
       - name: Activate Easycredit Module
         run: |
