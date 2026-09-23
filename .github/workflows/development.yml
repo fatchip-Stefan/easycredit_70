@@ -92,15 +92,6 @@ jobs:
         run: |
           cp source/source/config.inc.php.dist source/source/config.inc.php
           sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
-          sed -i -e 's/<dbHost>/mysql/'\
-                 -e 's/<dbUser>/root/'\
-                 -e 's/<dbName>/example/'\
-                 -e 's/<dbPwd>/root/'\
-                 -e 's/<dbPort>/3306/'\
-                 -e 's/<sShopURL>/https:\/\/localhost.local\//'\
-                 -e 's/<sShopDir>/\/var\/www\/source\//'\
-                 -e 's/<sCompileDir>/\/var\/www\/source\/tmp\//'\
-              source/source/config.inc.php
 
       - name: Start containers
         run: |
@@ -152,8 +143,9 @@ jobs:
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit          
           
       - name: Install Apex Theme
+        continue-on-error: true
         run: |
-          docker compose exec -T php composer require oxid-esales/apex-theme --with-all-dependencies  --no-update --no-security-blocking
+          docker compose exec -T php composer require oxid-esales/apex-theme:dev-b-7.0.x --with-all-dependencies  --no-update --no-security-blocking
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
 
     #  - name: Install Easycredit Module
