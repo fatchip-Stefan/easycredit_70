@@ -288,11 +288,27 @@ jobs:
         run: |
           make up
           sleep 2
+          
+      - name: show config
+        run: |
+          cat source/source/config.inc.php
 
       - name: Test0
         run: |
           docker compose exec -T \
           php ls -la /var/www/vendor/bin
+      - name: Test000
+        run: |
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:setup:shop \
+            --db-host mysql \
+            --db-port 3306 \
+            --db-name example \
+            --db-user root \
+            --db-password root \
+            --shop-url http://localhost.local \
+            --shop-directory /var/www/source \
+            --compile-directory /var/www/source/tmp \
+            --language=de
           
       - name: Test01
         run: |
