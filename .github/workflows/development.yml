@@ -170,14 +170,6 @@ jobs:
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
 
-    #  - name: Install Easycredit Module
-    #    run: |
-    #      docker compose exec -T php ls -la /var/www/
-    #      docker compose exec -T php ls -la /var/www/extensions/easycredit
-    #      docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install extensions/easycredit
-        
-        
-
       - name: Activate Easycredit Module
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
@@ -197,8 +189,8 @@ jobs:
       - name: Put module settings
         continue-on-error: true
         run: |
-          # docker compose exec -T php mkdir -p /var/www/var/configuration/shops/1/modules/osceasycredit.yaml
-          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
+          mkdir -p source/var/configuration/environment/
+          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/environment/1.yaml
           cat source/var/configuration/shops/1/modules/osceasycredit.yaml          
 
       - name: add test_yaml
