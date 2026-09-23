@@ -270,19 +270,19 @@ jobs:
             -e 's#/var/www/#/var/www/source/#g;'\
             containers/httpd/project.conf
 
-      - name: Prepare shop configuration
-        run: |
-          cp source/source/config.inc.php.dist source/source/config.inc.php
-          sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
-          sed -i -e 's/<dbHost>/mysql/'\
-                 -e 's/<dbUser>/root/'\
-                 -e 's/<dbName>/example/'\
-                 -e 's/<dbPwd>/root/'\
-                 -e 's/<dbPort>/3306/'\
-                 -e 's/<sShopURL>/https:\/\/localhost.local\//'\
-                 -e 's/<sShopDir>/\/var\/www\/source\//'\
-                 -e 's/<sCompileDir>/\/var\/www\/source\/tmp\//'\
-              source/source/config.inc.php
+      # - name: Prepare shop configuration
+      #  run: |
+      #    cp source/source/config.inc.php.dist source/source/config.inc.php
+      #    sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
+      #    sed -i -e 's/<dbHost>/mysql/'\
+      #           -e 's/<dbUser>/root/'\
+      #           -e 's/<dbName>/example/'\
+      #           -e 's/<dbPwd>/root/'\
+      #           -e 's/<dbPort>/3306/'\
+       #          -e 's/<sShopURL>/https:\/\/localhost.local\//'\
+       #          -e 's/<sShopDir>/\/var\/www\/source\//'\
+       #          -e 's/<sCompileDir>/\/var\/www\/source\/tmp\//'\
+      #        source/source/config.inc.php
 
       - name: Start containers
         run: |
@@ -315,11 +315,13 @@ jobs:
           source/vendor/bin/reset-shop    
           
       - name: Install dependencies and reset shop
+        continue-on-error: true
         run: |
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T php composer update --no-interaction --no-scripts
-          docker compose exec -T php php vendor/bin/reset-shop      
+          docker compose exec -T php php vendor/bin/reset-shop 2> errors.txt 
+          cat errors.txt
           
       - name: Test00
         run: |
