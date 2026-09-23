@@ -195,7 +195,17 @@ jobs:
         run: |
           docker compose exec -T php ls -la /var/www
           docker compose exec -T php mv /var/www/extensions/easycredit/.github/test_config.yml /var/www/test_config.yml
+
+      - name: Test 1
+        run: |
+          docker compose exec -T \
+          php ls -la /var/www/vendor/oxid-professional-services/easycredit-module
           
+      - name: Test 2
+        run: |
+          docker compose exec -T \
+           php cat /var/www/var/configuration/shops/1/modules/osceasycredit.yaml          
+                
       - name: Run phpunit tests
         run: |
           docker compose exec -T \
