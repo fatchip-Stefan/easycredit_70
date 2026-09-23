@@ -8,41 +8,20 @@
         "GPL-3.0-only",
         "proprietary"
     ],
+    "extra": {
+        "oxideshop": {
+            "blacklist-filter": [
+                "documentation/**/*.*"
+            ],
+            "target-directory": "oxps/easycredit"
+        }
+    },
     "require": {
-        "ext-curl": "*",
-        "php": ">=8.0"
-    },
-    "require-dev": {
-        "oxid-esales/oxideshop-ce": "^7.0",
-        "oxid-esales/testing-library": "dev-b-7.0.x"
-    },
-    "conflict": {
-        "oxid-esales/oxideshop-ce": "<7.0"
+        "oxid-esales/oxideshop-ce": ">=v6.3"
     },
     "autoload": {
         "psr-4": {
-            "OxidSolutionCatalysts\\EasyCredit\\": "src",
-            "OxidSolutionCatalysts\\EasyCredit\\tests\\": "tests"
-        }
-    },
-    "scripts": {
-        "phpcs": "phpcs --standard=tests/phpcs.xml",
-        "phpcbf": "phpcbf --standard=tests/phpcs.xml",
-        "phpstan": "phpstan -ctests/PhpStan/phpstan.neon analyse src/",
-        "phpstan-report": "phpstan -ctests/PhpStan/phpstan.neon analyse src/ --error-format=json > phpstan.report.json",
-        "phpmd": "phpmd src ansi tests/PhpMd/standard.xml",
-        "phpmd-excludestaticaccess": "phpmd src ansi tests/PhpMd/exclude-static-access-rule.xml",
-        "phpmd-report": "phpmd src json tests/PhpMd/standard.xml --reportfile tests/reports/phpmd.report.json",
-        "static": [
-            "@phpcs",
-            "@phpstan",
-            "@phpmd"
-        ]
-    },
-    "config": {
-        "allow-plugins": {
-            "oxid-esales/oxideshop-unified-namespace-generator": true,
-            "oxid-esales/oxideshop-composer-plugin": true
+            "OxidProfessionalServices\\EasyCredit\\": "../../../source/modules/oxps/easycredit"
         }
     }
 }

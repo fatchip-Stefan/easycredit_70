@@ -1,0 +1,23 @@
+{
+  "name": "oxid-esales/oxideshop-project",
+  "type": "project",
+  "description": "This file should be used as an OXID eShop project root composer.json file. Entries provided here intended to be examples and could be changed to your specific needs.",
+  "license": "proprietary",
+  "minimum-stability": "dev",
+  "require": {
+    "oxid-esales/oxideshop-metapackage-ce": "v7.5.0"
+  },
+  "config": {
+    "prepend-autoloader": false,
+    "preferred-install": {
+      "*": "dist"
+    },
+    "allow-plugins": {
+      "oxid-esales/oxideshop-composer-plugin": true,
+      "oxid-esales/oxideshop-unified-namespace-generator": true
+    }
+  },
+  "require-dev": {
+    "oxid-esales/testing-library": "dev-b-8.0.x"
+  }
+}
