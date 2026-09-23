@@ -248,8 +248,8 @@ jobs:
           cd source
           composer config audit.block-insecure false
           composer install --no-progress --no-suggest --no-interaction
+            
           
-
       - name: Prepare container configuration
         run: |
           make setup
@@ -289,6 +289,11 @@ jobs:
           make up
           sleep 2
 
+      - name: Test0
+        run: |
+          docker compose exec -T \
+          php ls -la /var/www/vendor/bin
+          
       - name: Install dependencies and reset shop
         run: |
           docker compose exec -T \
@@ -296,7 +301,7 @@ jobs:
           docker compose exec -T php composer update --no-interaction --no-scripts
           docker compose exec -T php php vendor/bin/reset-shop      
           
-      - name: Test0
+      - name: Test00
         run: |
           docker compose exec -T \
           php ls -la /var/www/vendor/bin  
