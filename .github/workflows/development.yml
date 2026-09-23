@@ -65,9 +65,8 @@ jobs:
           composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
           cd source
           composer config audit.block-insecure false
-          composer install
-          pwd
-          ls -la source
+          composer install --no-progress --no-suggest --no-interaction
+          
         
       - name: Prepare container configuration
         run: |
@@ -93,7 +92,6 @@ jobs:
         run: |
           cp source/source/config.inc.php.dist source/source/config.inc.php
           sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
-          
 
       - name: Start containers
         run: |
@@ -206,7 +204,5 @@ jobs:
           # docker compose exec -T php /var/www/vendor/bin/runtests    
           
         
-      - name: output oxid logs
-        run: |
-          docker compose exec -T php cat /var/www/source/log/* 
+
           
