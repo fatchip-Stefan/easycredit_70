@@ -144,6 +144,7 @@ jobs:
           
       - name: Install Apex Theme
         run: |
+          docker compose exec -T php composer require oxid-esales/apex-theme --with-all-dependencies  --no-update --no-security-blocking
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
 
     #  - name: Install Easycredit Module
