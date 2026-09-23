@@ -214,3 +214,137 @@ jobs:
         exclude:
           - oxid-versions: 'dev-b-7.0-ce'
           - php-versions: '8.1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, xdebug, gd, bcmath, ctype, curl, dom, hash, iconv, intl, openssl, simplexml, soap, xsl, zip
+          tools: composer:v2
+
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Check Composer Version
+        run: composer -V
+
+      - name: Cleanup workspace
+        run: |
+          ls -la ./
+          sudo rm -rf ./* || true
+          sudo rm -rf ./.??* || true
+          ls -la ./
+
+      - name: Clone testing environment
+        run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
+
+      - name: Clone the shop
+        run: |
+          git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
+
+      - name: Prepare container configuration
+        run: |
+          make setup
+          make addbasicservices
+          make file=services/selenium-chrome.yml addservice
+          perl -pi\
+            -e "s#PHP_VERSION=.*#PHP_VERSION=${{ matrix.php-versions }}#g;"\
+            .env
+          perl -pi\
+            -e "s#MYSQL_VERSION=.*#MYSQL_VERSION=5.7#g;"\
+            .env
+          perl -pi\
+            -e 's#display_errors =.*#display_errors = false#g;'\
+            -e 'print "xdebug.max_nesting_level=1000\nxdebug.mode=coverage\n\n"'\
+            containers/php/custom.ini
+
+          perl -pi\
+            -e 's#/var/www/#/var/www/source/#g;'\
+            containers/httpd/project.conf
+
+      - name: Prepare shop configuration
+        run: |
+          cp source/source/config.inc.php.dist source/source/config.inc.php
+          sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
+          sed -i -e 's/<dbHost>/mysql/'\
+                 -e 's/<dbUser>/root/'\
+                 -e 's/<dbName>/example/'\
+                 -e 's/<dbPwd>/root/'\
+                 -e 's/<dbPort>/3306/'\
+                 -e 's/<sShopURL>/https:\/\/localhost.local\//'\
+                 -e 's/<sShopDir>/\/var\/www\/source\//'\
+                 -e 's/<sCompileDir>/\/var\/www\/source\/tmp\//'\
+              source/source/config.inc.php
+
+      - name: Start containers
+        run: |
+          make up
+          sleep 2
+
+      - name: Install dependencies and reset shop
+        run: |
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T php composer update --no-interaction --no-scripts
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T php php vendor/bin/reset-shop      
+
+      - name: Checkout current module
+        uses: actions/checkout@v5
+        with:
+          path: source/extensions/easycredit
+
+      - name: set composer.json to dev stability
+        run: |
+          docker compose exec -T \
+          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json          
+
+      - name: Install module
+        run: |
+          docker compose exec -T \
+            php composer config repositories.oxid-professional-services/easycredit-module \
+            --json '{"type":"path", "url":"/var/www/extensions/easycredit", "options": {"symlink": true}}'
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T php composer require oxid-professional-services/easycredit-module:* --no-interaction --no-update
+
+      - name: Activate Easycredit Module
+        continue-on-error: true
+        run: |
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate oxpseasycredit
+
+      - name: Clear Oxid Cache
+        continue-on-error: true
+        run: |
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear          
+
+      - name: Put module settings
+        continue-on-error: true
+        run: |
+          mkdir -p /var/www/var/configuration/shops/1/modules
+          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
+          cat source/var/configuration/shops/1/modules/osceasycredit.yaml          
+
+      - name: Run phpunit tests
+        continue-on-error: true
+        run: |
+          docker compose exec -T \
+           php /var/www/vendor/bin/phpunit \
+             -c /var/www/extensions/easycredit/Tests/phpunit.xml \
+             --testsuite=Integration \
+             --bootstrap=/var/www/source/bootstrap.php \
+             /var/www/extensions/easycredit/Tests | tee integration_PHP${{ matrix.php-versions }}_phpunit_log.txt 2>&1 || true
+          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php-versions }}_phpunit_log.txt; then 
+            exit 1; 
+          fi
+
+      - name: Run tests with testing lib
+        continue-on-error: true
+        run: |
+          # docker compose exec -T php ls -la  /var/www/vendor/bin 
+          docker compose exec -T php /var/www/vendor/bin/runtests     
+  
