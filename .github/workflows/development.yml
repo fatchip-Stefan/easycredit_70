@@ -209,11 +209,11 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        oxid-versions: ['dev-b-6.5-ce']
+        oxid-versions: ['6.5']
         php-versions: ['8.0', '8.1']
         exclude:
-          - oxid-versions: 'dev-b-7.0-ce'
-          - php-versions: '8.1'
+          - oxid-versions: '6.5'
+          - php-versions: '8.0'
     steps:
       - name: Checkout
         uses: actions/checkout@master
