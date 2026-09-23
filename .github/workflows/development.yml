@@ -168,16 +168,16 @@ jobs:
       - name: Install Apex Theme
         continue-on-error: true
         run: |
-          docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex
-          
-      - name: Put module settings
-        run: |
-          mkdir -p source/var/www/var/configuration/shops/1/modules
-          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml          
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:theme:activate apex          
 
       - name: Activate Easycredit Module
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate osceasycredit
+
+      - name: Put module settings
+        run: |
+          mkdir -p source/var/www/var/configuration/shops/1/modules
+          echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
           
       - name: Clear Oxid Cache
         run: |
