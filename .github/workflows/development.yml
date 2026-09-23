@@ -184,8 +184,7 @@ jobs:
             php composer require oxid-esales/testing-library:dev-b-8.0.x
           docker compose exec -T \
             php composer update
-        
-          
+         
       - name: Put module settings
         continue-on-error: true
         run: |
@@ -217,7 +216,7 @@ jobs:
         continue-on-error: true
         run: |
           # docker compose exec -T php ls -la  /var/www/vendor/bin 
-          # docker compose exec -T php /var/www/vendor/bin/runtests    
+          docker compose exec -T php /var/www/vendor/bin/runtests    
           
         
 
