@@ -20,9 +20,9 @@ jobs:
         operating-system: [ubuntu-latest]
         # oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.1-ce', 'dev-b-7.2-ce', 'dev-b-7.3-ce', 'dev-b-7.4-ce', 'dev-b-7.5-ce']
         # oxid-versions: ['7.5']
-        oxid-versions: ['dev-b-7.5-ce']
+        oxid-versions: ['dev-b-7.0-ce', 'dev-b-7.5-ce']
         # php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
-        php-versions: ['8.3']
+        php-versions: ['8.0','8.3']
         exclude:
           - oxid-versions: '7.0'
             php-versions: '8.2'
@@ -61,12 +61,7 @@ jobs:
         run: git clone https://github.com/OXID-eSales/docker-eshop-sdk.git .
 
       - name: Clone the shop
-        # run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
-        run: |
-          composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
-          cd source
-          composer install --no-progress --no-suggest --no-interaction
-          
+        run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
         
       - name: Prepare container configuration
         run: |
@@ -92,6 +87,7 @@ jobs:
         run: |
           cp source/source/config.inc.php.dist source/source/config.inc.php
           sed -i "1s+^+SetEnvIf Authorization "\(.*\)" HTTP_AUTHORIZATION=\$1\n\n+" source/source/.htaccess
+          
 
       - name: Start containers
         run: |
