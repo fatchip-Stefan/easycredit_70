@@ -297,6 +297,16 @@ jobs:
         run: |
           docker compose exec -T \
           php ls -la /var/www/vendor/bin
+          
+      - name: Install dependencies and reset shop 0
+        continue-on-error: true
+        run: |
+          docker compose exec -T \
+            php composer config audit.block-insecure false
+          docker compose exec -T php composer update --no-interaction --no-scripts
+          docker compose exec -T php php vendor/bin/reset-shop 2> errors.txt 
+          cat errors.txt
+          
       - name: Test000
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:setup:shop \
