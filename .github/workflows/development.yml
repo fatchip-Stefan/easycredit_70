@@ -186,7 +186,6 @@ jobs:
             php composer update
          
       - name: Put module settings
-        continue-on-error: true
         run: |
           mkdir -p source/var/configuration/environment/
           echo "${{ secrets.MODULE_SETTINGS }}" > source/var/configuration/environment/1.yaml
@@ -198,7 +197,6 @@ jobs:
           docker compose exec -T php mv /var/www/extensions/easycredit/.github/test_config.yml /var/www/test_config.yml
           
       - name: Run phpunit tests
-        continue-on-error: true
         run: |
           docker compose exec -T \
            php ls -la /var/www/extensions/easycredit
@@ -211,12 +209,6 @@ jobs:
           if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php-versions }}_phpunit_log.txt; then 
             exit 1; 
           fi
-          
-      - name: Run tests with testing lib
-        continue-on-error: true
-        run: |
-          # docker compose exec -T php ls -la  /var/www/vendor/bin 
-          docker compose exec -T php /var/www/vendor/bin/runtests    
           
         
 
