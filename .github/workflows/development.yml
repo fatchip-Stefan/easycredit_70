@@ -294,6 +294,10 @@ jobs:
           docker compose exec -T \
           php ls -la /var/www/vendor/bin
           
+      - name: Test01
+        run: |
+          source/vendor/bin/reset-shop    
+          
       - name: Install dependencies and reset shop
         run: |
           docker compose exec -T \
