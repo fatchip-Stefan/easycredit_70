@@ -202,7 +202,6 @@ jobs:
           fi
           
   run-b6-matrix:            
-    if: startsWith(github.ref_name, 'b-6.')
     runs-on: 'ubuntu-latest'
     strategy:
       max-parallel: 15
