@@ -203,7 +203,7 @@ jobs:
           
   run-b6-matrix:            
     if: startsWith(github.ref_name, 'b-6.')
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: 'ubuntu-latest'
     strategy:
       max-parallel: 15
       fail-fast: false
