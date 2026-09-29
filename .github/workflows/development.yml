@@ -200,9 +200,10 @@ jobs:
           if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php-versions }}_phpunit_log.txt; then 
             exit 1; 
           fi
-          
-  run-b6-matrix:            
-    runs-on: 'ubuntu-latest'
+  
+  run-b6-matrix:
+    if: startsWith(github.ref_name, 'b-6.')
+    runs-on: ${{ matrix.operating-system }}
     strategy:
       max-parallel: 15
       fail-fast: false
@@ -242,10 +243,7 @@ jobs:
 
       - name: Clone the shop
         run: |
-          composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
-          cd source
-          composer config audit.block-insecure false
-          composer install --no-progress --no-suggest --no-interaction
+          git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
 
       - name: Prepare container configuration
         run: |
