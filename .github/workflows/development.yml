@@ -312,6 +312,11 @@ jobs:
             php composer config audit.block-insecure false
           docker compose exec -T php composer require oxid-professional-services/easycredit-module:* --no-interaction --no-update
 
+      - name: Install Easycredit Module
+        continue-on-error: true
+        run: |
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:install source/modules/oxps/easycredit
+
       - name: Activate Easycredit Module
         continue-on-error: true
         run: |
