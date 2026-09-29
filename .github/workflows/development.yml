@@ -202,7 +202,6 @@ jobs:
           fi
   
   run-b6-matrix:
-    runs-on: ${{ matrix.operating-system }}
     strategy:
       max-parallel: 15
       fail-fast: false
