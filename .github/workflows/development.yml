@@ -242,7 +242,10 @@ jobs:
 
       - name: Clone the shop
         run: |
-          git clone --depth 1 https://github.com/OXID-eSales/oxideshop_ce.git --branch b-${{ matrix.oxid-versions }}.x --single-branch source
+          composer create-project -n --no-progress --no-install oxid-esales/oxideshop-project ./source ${{ matrix.oxid-versions }}
+          cd source
+          composer config audit.block-insecure false
+          composer install --no-progress --no-suggest --no-interaction
 
       - name: Prepare container configuration
         run: |
