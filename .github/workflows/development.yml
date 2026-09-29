@@ -202,7 +202,6 @@ jobs:
           fi
   
   run-b6-matrix:
-    if: startsWith(github.ref_name, 'b-6.')
     runs-on: ${{ matrix.operating-system }}
     strategy:
       max-parallel: 15
