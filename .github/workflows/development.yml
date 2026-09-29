@@ -257,7 +257,7 @@ jobs:
           make addbasicservices
           make file=services/selenium-chrome.yml addservice
           perl -pi\
-            -e "s#PHP_VERSION=.*#PHP_VERSION=${{ matrix.php-versions }}#g;"\
+            -e "s#PHP_VERSION=.*#PHP_VERSION=8.1#g;"\
             .env
           perl -pi\
             -e "s#MYSQL_VERSION=.*#MYSQL_VERSION=5.7#g;"\
@@ -319,11 +319,7 @@ jobs:
             --shop-url http://localhost.local \
             --shop-directory /var/www/source \
             --compile-directory /var/www/source/tmp \
-            --language=de
-          
-      - name: Test01
-        run: |
-          source/vendor/bin/reset-shop    
+            --language=de 
           
       - name: Install dependencies and reset shop
         continue-on-error: true
@@ -344,10 +340,10 @@ jobs:
         with:
           path: source/extensions/easycredit
           
-      #- name: set composer.json to dev stability
-      #  run: |
-      #    docker compose exec -T \
-      #    php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
+      - name: set composer.json to dev stability
+        run: |
+          docker compose exec -T \
+          php sed -i 's/"minimum-stability": "stable",/"minimum-stability": "dev",/' /var/www/composer.json
           
       - name: Test1
         run: |
@@ -372,18 +368,16 @@ jobs:
         run: |
           docker compose exec -T \
             php composer config repositories.oxid-professional-services/easycredit-module \
-            --json '{"type":"path", "url":"/var/www/extensions/easycredit", "options": {"symlink": true}}'
+            --json '{"type":"path", "url":"/var/www/source/extensions/easycredit", "options": {"symlink": true}}'
           docker compose exec -T \
             php composer config audit.block-insecure false
           docker compose exec -T php composer require oxid-professional-services/easycredit-module:* --no-interaction --no-update
 
       - name: Activate Easycredit Module
-        continue-on-error: true
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:module:activate oxpseasycredit
 
       - name: Clear Oxid Cache
-        continue-on-error: true
         run: |
           docker compose exec -T php /var/www/vendor/bin/oe-console oe:cache:clear          
 
