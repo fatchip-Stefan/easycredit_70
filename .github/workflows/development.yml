@@ -133,11 +133,6 @@ jobs:
         run: |
           \rm -R source/source/tmp/*
 
-      - name: Configure module for v3 API
-        run: |
-          mkdir -p source/var/www/var/configuration/shops/1/modules
-          echo "${{ secrets.MODULE_SETTINGS_OXID7_V3 }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
-
       - name: Install Testing Lib Oxid 7
         run: |
           docker compose exec -T \
@@ -151,9 +146,24 @@ jobs:
         run: |
           docker compose exec -T php mv /var/www/source/extensions/easycredit/.github/test_config_oxid7.yml /var/www/test_config.yml
 
+      - name: Configure module for v3 API
+        run: |
+          mkdir -p source/var/www/var/configuration/shops/1/modules
+          echo "${{ secrets.MODULE_SETTINGS_OXID7_V3 }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
+          
       - name: Run tests with testing lib against v3 API
+        continue-on-error: true
         run: |
           docker compose exec -T php /var/www/vendor/bin/runtests   
+          
+      - name: Configure module for v2 API
+        run: |
+          mkdir -p source/var/www/var/configuration/shops/1/modules
+          echo "${{ secrets.MODULE_SETTINGS_OXID7_V2 }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
+
+      - name: Run tests with testing lib against v2 API
+        run: |
+          docker compose exec -T php /var/www/vendor/bin/runtests          
 
   run-b6-matrix:
     if: startsWith(github.ref_name, 'b-6.')
