@@ -143,7 +143,6 @@ jobs:
             php composer require oxid-esales/testing-library:dev-b-8.0.x
           docker compose exec -T \
             php composer update
-          ls -la source/vendor/oxid-esales/testing-library
 
       - name: create test_config.yml
         run: |
@@ -155,7 +154,7 @@ jobs:
            php /var/www/vendor/bin/phpunit \
              -c /var/www/source/extensions/easycredit/tests/phpunit.xml \
              --testsuite=Integration \
-             --bootstrap=/var/www/source/vendor/oxid-esales/testing-library/bootstrap.php \
+             --bootstrap=/var/www/vendor/oxid-esales/testing-library/bootstrap.php \
              /var/www/source/extensions/easycredit/tests | tee integration_PHP${{ matrix.php-versions }}_phpunit_log.txt 2>&1 || true
           if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php-versions }}_phpunit_log.txt; then 
             exit 1; 
@@ -172,7 +171,7 @@ jobs:
            php /var/www/vendor/bin/phpunit \
              -c /var/www/source/extensions/easycredit/tests/phpunit.xml \
              --testsuite=Integration \
-             --bootstrap=/var/www/source/vendor/oxid-esales/testing-library/bootstrap.php \
+             --bootstrap=/var/www/vendor/oxid-esales/testing-library/bootstrap.php \
              /var/www/source/extensions/easycredit/tests | tee integration_PHP${{ matrix.php-versions }}_phpunit_log.txt 2>&1 || true
           if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php-versions }}_phpunit_log.txt; then 
             exit 1; 
