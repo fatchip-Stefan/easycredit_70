@@ -148,9 +148,21 @@ jobs:
         run: |
           docker compose exec -T php mv /var/www/source/extensions/easycredit/.github/test_config_oxid7.yml /var/www/test_config.yml
 
-      - name: Run tests with testing lib against v3 API
+      # - name: Run tests with testing lib against v3 API
+      #  run: |
+      #    docker compose exec -T php /var/www/vendor/bin/runtests
+          
+      - name: Run phpunit tests Oxid 7
         run: |
-          docker compose exec -T php /var/www/vendor/bin/runtests          
+          docker compose exec -T \
+           php /var/www/vendor/bin/phpunit \
+             -c /var/www/source/extensions/easycredit/tests/phpunit.xml \
+             --testsuite=Integration \
+             --bootstrap=/var/www/source/bootstrap.php \
+             /var/www/source/extensions/easycredit/tests | tee integration_PHP${{ matrix.php-versions }}_phpunit_log.txt 2>&1 || true
+          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php-versions }}_phpunit_log.txt; then 
+            exit 1; 
+          fi          
   
   run-b6-matrix:
     if: startsWith(github.ref_name, 'b-6.')
