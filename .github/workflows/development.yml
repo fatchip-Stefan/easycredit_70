@@ -142,7 +142,8 @@ jobs:
           docker compose exec -T \
             php composer require oxid-esales/testing-library:dev-b-8.0.x
           docker compose exec -T \
-            php composer update   
+            php composer update
+          ls -la source/vendor/oxid-esales/testing-library
 
       - name: create test_config.yml
         run: |
