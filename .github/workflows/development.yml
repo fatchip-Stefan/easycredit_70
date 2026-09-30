@@ -134,7 +134,7 @@ jobs:
 
       - name: Configure module for v3 API
         run: |
-          mkdir -p source/source/var/www/var/configuration/shops/1/modules
+          mkdir -p source/var/www/var/configuration/shops/1/modules
           echo "${{ secrets.MODULE_SETTINGS_OXID7_V3 }}" > source/source/var/configuration/shops/1/modules/osceasycredit.yaml         
 
       - name: Install Testing Lib Oxid 7
@@ -162,8 +162,8 @@ jobs:
 
       - name: Configure module for v2 API
         run: |
-          mkdir -p source/source/var/www/var/configuration/shops/1/modules
-          echo "${{ secrets.MODULE_SETTINGS_OXID7_V2 }}" > source/source/var/configuration/shops/1/modules/osceasycredit.yaml
+          mkdir -p source/var/www/var/configuration/shops/1/modules
+          echo "${{ secrets.MODULE_SETTINGS_OXID7_V2 }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
 
       - name: Run phpunit tests for v2 API
         run: |
