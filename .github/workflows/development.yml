@@ -152,7 +152,6 @@ jobs:
           echo "${{ secrets.MODULE_SETTINGS_OXID7_V3 }}" > source/var/configuration/shops/1/modules/osceasycredit.yaml
           
       - name: Run tests with testing lib against v3 API
-        continue-on-error: true
         run: |
           docker compose exec -T php /var/www/vendor/bin/runtests   
           
