@@ -203,6 +203,7 @@ jobs:
           perl -pi -e "s#PHP_VERSION=.*#PHP_VERSION=${{ matrix.php-versions }}#g;" .env
           perl -pi -e "s#MYSQL_VERSION=.*#MYSQL_VERSION=5.7#g;" .env
           perl -pi -e 's#/var/www/#/var/www/source/#g;' containers/httpd/project.conf
+          perl -pi -e 's#display_errors =.*#display_errors = false#g;' -e 'print "xdebug.max_nesting_level=1000\nxdebug.mode=coverage\n\n"' containers/php/custom.ini
 
       - name: Start containers
         run: |
