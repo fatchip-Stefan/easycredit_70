@@ -95,6 +95,7 @@ jobs:
             --shop-directory /var/www/source \
             --compile-directory /var/www/source/tmp \
             --language=de
+          docker compose exec -T php /var/www/vendor/bin/oe-console oe:setup:demodata
           
       - name: set composer.json to dev stability
         run: |
