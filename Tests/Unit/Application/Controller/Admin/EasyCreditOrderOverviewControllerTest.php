@@ -51,7 +51,7 @@ class EasyCreditOrderOverviewControllerTest extends UnitTestCase
         $controller->expects($this->exactly(2))
             ->method('getEditObjectId')
             ->willReturn(null);
-        $this->assertNull($controller->sendOrder());
+        $this->assertNull($controller->sendorder());
     }
 
     public function testSendOrderWithOrder()
@@ -79,7 +79,7 @@ class EasyCreditOrderOverviewControllerTest extends UnitTestCase
             ->willReturn('functionalId');
         $controller->expects($this->once())->method('getService')->willReturn($tradingApiService);
 
-        $controller->sendOrder();
+        $controller->sendorder();
     }
 
     public function testSendOrderNoECOrder()
@@ -100,6 +100,6 @@ class EasyCreditOrderOverviewControllerTest extends UnitTestCase
 
         $controller->expects($this->never())->method('getService');
 
-        $controller->sendOrder();
+        $controller->sendorder();
     }
 }
