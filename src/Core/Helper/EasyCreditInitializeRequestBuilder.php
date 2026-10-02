@@ -25,10 +25,12 @@ use OxidEsales\Eshop\Application\Model\Order;
 use OxidEsales\Eshop\Application\Model\User;
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\Eshop\Core\Exception\SystemComponentException;
+use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\Session;
 use OxidSolutionCatalysts\EasyCredit\Core\Di\EasyCreditApiConfig;
 use OxidSolutionCatalysts\EasyCredit\Core\Di\EasyCreditDic;
 use OxidSolutionCatalysts\EasyCredit\Core\Di\EasyCreditDicFactory;
+use OxidSolutionCatalysts\EasyCredit\Core\Exception\EasyCreditException;
 
 /**
  * Class to build the data for request "VorgangInitialisierenRequest" as part of initialization of easyCredit
@@ -679,7 +681,6 @@ class EasyCreditInitializeRequestBuilder implements EasyCreditInitializeRequestB
     {
         $customer = $this->getUser();
         if (EasyCreditDicFactory::getDic()->getApiConfig()->getEasyCreditUseApiVersionV3()) {
-            // StefTest
             $contacts = [
                 'email' => $customer->oxuser__oxusername->value,
                 // 'mobilePhoneNumber' => '',

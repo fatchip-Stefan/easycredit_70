@@ -485,7 +485,6 @@ class EasyCreditOrder extends EasyCreditOrder_parent
 
         if (EasyCreditDicFactory::getDic()->getApiConfig()->getEasyCreditUseApiVersionV3()) {
             $wsClient = EasyCreditWebServiceClientFactory::getWebServiceClient(EasyCreditApiConfig::API_CONFIG_SERVICE_NAME_V3_BESTAETIGEN, $this->getDic(), [$processId], [], true);
-            // StefToDO check response status code for 202 => order can be saved
             $wsClient->executeJsonRequest($wsClient->getHttpmethod(), $wsClient->getFunction(), $requestData);
             // get updated transaction informantion and THEN check the Response for the fields
             $wsClient = EasyCreditWebServiceClientFactory::getWebServiceClient(EasyCreditApiConfig::API_CONFIG_SERVICE_NAME_V3_FINANCIAL_INFORMATION, $this->getDic(), [$processId], [], true);
@@ -534,8 +533,16 @@ class EasyCreditOrder extends EasyCreditOrder_parent
         $orderdata = $tradingApiService->getOrderData();
         if (EasyCreditDicFactory::getDic()->getApiConfig()->getEasyCreditUseApiVersionV3() && $this->oxorder__ecredisv3order->value == 1) {
             $state = $orderdata->status;
+            // also update oxpaid date
+            if (($state === 'REPORT_CAPTURE' || $state === 'IN_BILLING') && $this->oxorder__oxpaid->value === '0000-00-00 00:00:00')
+            {
+                $this->oxorder__oxpaid = new Field(date('Y-m-d H:i:s'));
+            }
         } else {
             $state = $orderdata[0]->haendlerstatusV2;
+            if ($state === 'IN_ABRECHNUNG' && $this->oxorder__oxpaid->value === '0000-00-00 00:00:00') {
+                $this->oxorder__oxpaid = new Field(date('Y-m-d H:i:s'));
+            }
         }
 
         $this->oxorder__ecreddeliverystate = new Field($state, Field::T_RAW);
