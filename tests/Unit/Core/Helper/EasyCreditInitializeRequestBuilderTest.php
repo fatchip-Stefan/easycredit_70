@@ -656,6 +656,10 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'lieferadresse' => [
                     'vorname' => 'firstname',
                     'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
