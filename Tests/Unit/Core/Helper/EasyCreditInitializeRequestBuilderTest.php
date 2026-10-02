@@ -129,8 +129,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -237,6 +237,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
         $user = $this->getMock(User::class, ['getUserGroups']);
         $user->expects($this->any())->method('getUserGroups')->willReturn($groups);
         $user->oxuser__oxpassword = new Field('password');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -266,8 +268,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -324,6 +326,14 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
@@ -337,6 +347,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
 
         $user                = $this->getMock(User::class, ['getUserGroups']);
         $user->oxuser__oxsal = new Field('MRS');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -410,7 +422,9 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                     'urlAblehnung' => $sslShopUrl . 'index.php?lang=&sid=&shp=' . $config->getBaseShopId() . '&cl=payment'
                 ],
                 'personendaten'           => [
-                    'anrede' => 'FRAU'
+                    'anrede' => 'FRAU',
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ],
                 'kontakt'                 => [
                     'email' => null
@@ -427,7 +441,11 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
-                ]
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
             ];
         }
         $this->assertEquals($expected, $rb->getInitializationData());
@@ -440,6 +458,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
 
         $user                      = $this->getMock(User::class, ['getUserGroups']);
         $user->oxuser__oxbirthdate = new Field('1985-07-13');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -469,8 +489,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => '1985-07-13',
                         'contact' =>
                             array (
@@ -513,7 +533,9 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                     'urlAblehnung' => $sslShopUrl . 'index.php?lang=&sid=&shp=' . $config->getBaseShopId() . '&cl=payment'
                 ],
                 'personendaten'           => [
-                    'geburtsdatum' => '1985-07-13'
+                    'geburtsdatum' => '1985-07-13',
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ],
                 'kontakt'                 => [
                     'email' => null
@@ -543,6 +565,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
 
         $user                      = $this->getMock('oxUser', ['getUserGroups']);
         $user->oxuser__oxbirthdate = new Field('12345');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -572,8 +596,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => '',
                         'contact' =>
                             array (
@@ -630,6 +654,14 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
@@ -642,6 +674,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
         $basket = oxNew(Basket::class);
 
         $user = $this->getMock('oxUser', ['getUserGroups']);
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $deliveryAddress = oxNew(Address::class);
 
@@ -674,8 +708,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -732,6 +766,10 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
@@ -745,6 +783,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
 
         $user                      = $this->getMock(User::class, ['getUserGroups']);
         $user->oxuser__oxcountryid = new Field('a7c40f631fc920687.20179984');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
         
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -776,8 +816,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -839,7 +879,13 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                     'land' => 'DE'
                 ],
                 'lieferadresse'           => [
-                    'land' => 'DE'
+                    'land' => 'DE',
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
@@ -854,6 +900,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
 
         $user                = $this->getMock(User::class, ['getUserGroups']);
         $user->oxuser__oxfon = new Field('+49 123-1234');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -930,6 +978,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
         $basket->expects($this->any())->method('getContents')->willReturn($basketContents);
 
         $user = oxNew(User::class);
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -975,8 +1025,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -1061,6 +1111,14 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ]
                         ]
                     ]
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
