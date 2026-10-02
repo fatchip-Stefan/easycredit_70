@@ -418,7 +418,11 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ],
             'technischeShopparameter' => [
                 'shopSystemHersteller' => 'OXID eShop '
-            ]
+            ],
+            'lieferadresse' => [
+                'vorname' => 'firstname',
+                'nachname' => 'lastname'
+            ],            
         ];
         $this->assertEquals($expected, $rb->getInitializationData());
 
@@ -533,7 +537,11 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
-                ]
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
             ];
         }
         $this->assertEquals($expected, $rb->getInitializationData());
@@ -884,6 +892,10 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 ],
                 'lieferadresse' => [
                     'land' => 'DE',
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
                     'vorname' => 'firstname',
                     'nachname' => 'lastname'
                 ]
