@@ -143,8 +143,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -289,8 +289,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -454,8 +454,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'customer' =>
                     array (
                         'gender' => 'MRS',
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -566,8 +566,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => '',
                         'contact' =>
                             array (
@@ -677,8 +677,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -788,8 +788,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -1020,8 +1020,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'customer' =>
                     array (
                         'gender' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
