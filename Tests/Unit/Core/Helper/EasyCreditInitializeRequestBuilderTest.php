@@ -84,6 +84,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
         $basket->expects($this->any())->method('getPaymentId')->willReturn(EasyCreditHelper::EASYCREDIT_INSTALLMENT_PAYMENTID);
 
         $user = oxNew(User::class);
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -103,6 +105,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
@@ -174,6 +178,14 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 ],
                 'kontakt'                 => [
                     'email' => null
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ],
                 'risikorelevanteAngaben'  => [
                     'bestellungErfolgtUeberLogin' => false,
