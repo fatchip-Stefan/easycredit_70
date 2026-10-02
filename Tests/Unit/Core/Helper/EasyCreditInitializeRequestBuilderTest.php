@@ -258,6 +258,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
@@ -368,6 +370,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
@@ -378,8 +382,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                 'customer' =>
                     array (
                         'gender' => 'MRS',
-                        'firstName' => NULL,
-                        'lastName' => NULL,
+                        'firstName' => 'firstname',
+                        'lastName' => 'lastname',
                         'birthDate' => NULL,
                         'contact' =>
                             array (
@@ -479,6 +483,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
@@ -586,6 +592,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
@@ -698,6 +706,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
@@ -806,6 +816,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                         'shippingAddress' =>
                             array (
                                 'country' => 'DE',
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
