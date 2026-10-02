@@ -349,7 +349,15 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
-                ]
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
             ];
         }
         $this->assertEquals($expected, $rb->getInitializationData());
@@ -391,7 +399,9 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'urlAblehnung' => $sslShopUrl . 'index.php?lang=&sid=&shp=' . $config->getBaseShopId() . '&cl=payment'
             ],
             'personendaten'           => [
-                'anrede' => 'FRAU'
+                'anrede' => 'FRAU',
+                'vorname' => 'firstname',
+                'nachname' => 'lastname'
             ],
             'kontakt'                 => [
                 'email' => null
@@ -504,7 +514,9 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                     'urlAblehnung' => $sslShopUrl . 'index.php?lang=&sid=&shp=' . $config->getBaseShopId() . '&cl=payment'
                 ],
                 'personendaten' => [
-                    'geburtsdatum' => '1985-07-13'
+                    'geburtsdatum' => '1985-07-13',
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ],
                 'kontakt' => [
                     'email' => null
@@ -632,7 +644,15 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
-                ]
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
             ];
         }
         $this->assertEquals($expected, $rb->getInitializationData());
@@ -745,6 +765,10 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 ],
                 'technischeShopparameter' => [
                     'shopSystemHersteller' => 'OXID eShop '
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
@@ -863,7 +887,9 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                     'land' => 'DE'
                 ],
                 'lieferadresse' => [
-                    'land' => 'DE'
+                    'land' => 'DE',
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
@@ -1122,6 +1148,14 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                             ]
                         ]
                     ]
+                ],
+                'lieferadresse' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
+                ],
+                'personendaten' => [
+                    'vorname' => 'firstname',
+                    'nachname' => 'lastname'
                 ]
             ];
         }
