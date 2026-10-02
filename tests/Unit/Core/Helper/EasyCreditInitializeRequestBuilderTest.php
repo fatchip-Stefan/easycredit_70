@@ -648,11 +648,7 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
                 'lieferadresse' => [
                     'vorname' => 'firstname',
                     'nachname' => 'lastname'
-                ],
-                'personendaten' => [
-                    'vorname' => 'firstname',
-                    'nachname' => 'lastname'
-                ],
+                ]
             ];
         }
         $this->assertEquals($expected, $rb->getInitializationData());
