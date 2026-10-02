@@ -259,6 +259,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ->setMethods(['getUserGroups'])
             ->getMock();
         $user->expects($this->any())->method('getUserGroups')->willReturn($groups);
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
         $user->oxuser__oxpassword = new Field('password');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
@@ -369,6 +371,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ->setMethods(['getUserGroups'])
             ->getMock();
         $user->oxuser__oxsal = new Field('MRS');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -425,6 +429,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ->setMethods(['getUserGroups'])
             ->getMock();
         $user->oxuser__oxbirthdate = new Field('1985-07-13');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -537,6 +543,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ->setMethods(['getUserGroups'])
             ->getMock();
         $user->oxuser__oxbirthdate = new Field('12345');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -645,6 +653,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getUserGroups'])
             ->getMock();
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $deliveryAddress = oxNew(Address::class);
 
@@ -757,6 +767,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ->setMethods(['getUserGroups'])
             ->getMock();
         $user->oxuser__oxcountryid = new Field('a7c40f631fc920687.20179984');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -875,6 +887,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
             ->setMethods(['getUserGroups'])
             ->getMock();
         $user->oxuser__oxfon = new Field('+49 123-1234');
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
@@ -975,6 +989,8 @@ class EasyCreditInitializeRequestBuilderTest extends TestCase
         $basket->expects($this->any())->method('getContents')->willReturn($basketContents);
 
         $user = oxNew(User::class);
+        $user->oxuser__oxfname = new Field('firstname');
+        $user->oxuser__oxlname = new Field('lastname');
 
         $rb = oxNew(EasyCreditInitializeRequestBuilder::class);
         $rb->setBasket($basket);
