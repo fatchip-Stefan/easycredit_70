@@ -706,8 +706,6 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
-                                'firstName' => 'firstname',
-                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
@@ -1011,6 +1009,8 @@ class EasyCreditInitializeRequestBuilderTest extends UnitTestCase
                             ),
                         'shippingAddress' =>
                             array (
+                                'firstName' => 'firstname',
+                                'lastName' => 'lastname'
                             ),
                         'orderId' => '',
                         'numberOfProductsInShoppingCart' => 0,
